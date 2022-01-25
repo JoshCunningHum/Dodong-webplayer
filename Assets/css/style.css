@@ -1,0 +1,117 @@
+#dodongLogo {
+    background-image: url(../pictures/dlogoonly.svg);
+    height: 150px;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-bottom: 0;
+}
+
+#dodongLogo + div {
+    font-size: 2.2rem;
+    text-align: center;
+    color: var(--dodong-secondary);
+}
+
+#nav {
+    background: var(--secondary);
+}
+
+#player-container {
+    font-size: 2rem;
+    width: 100%;
+}
+
+#control-container {
+    width: 100%;
+    max-width: 200px;
+}
+
+#control-container button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tritiary);
+    color: white;
+}
+
+#control-container button:last-of-type {
+    width: 40px;
+    height: 40px;
+}
+
+#playpauseButton.paused {
+    padding-bottom: .5rem;
+}
+
+.queue_container {
+    flex-grow: 1 1 auto;
+}
+
+.queue_item {
+    font-size: 1rem;
+    font-family: monospace;
+    padding: .5rem 0;
+    color: white;
+    border-bottom: thin dashed white;
+}
+
+.queue_item > span:first-child {
+    display: flex;
+    align-items: center;
+}
+
+.queue_item > span:last-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+.queue_item > span:first-child > span:first-child {
+    font-family: Bebas;
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
+
+#connectionStatus {
+    background: var(--dodong-primary);
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .5rem;
+    border-bottom-left-radius: 10px;
+}
+
+.fade {
+    transition: all 1s ease-in-out;
+}
+
+#queue-container.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: monospace;
+    color: grey;
+}
+
+@media (orientation: portrait) {
+    #dodongLogo {
+        background-image: url(../pictures/dodong.svg);
+        height: 125px;
+    }
+    #dodongLogo + div {
+        display: none;
+    }
+    #mainCont {
+        display: grid;
+    }
+    #nav {
+        display: flex;
+        justify-content: center;
+        height: 100px;
+    }
+}
