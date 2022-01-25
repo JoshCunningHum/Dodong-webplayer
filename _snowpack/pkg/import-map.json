@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@socket.io/base64-arraybuffer": "./@socket.io/base64-arraybuffer.js",
+    "@socket.io/component-emitter": "./@socket.io/component-emitter.js",
+    "backo2": "./backo2.js",
+    "engine.io-client": "./engine.io-client.js",
+    "engine.io-parser": "./engine.io-parser.js",
+    "has-cors": "./has-cors.js",
+    "parseqs": "./parseqs.js",
+    "parseuri": "./parseuri.js",
+    "socket.io-client": "./socket.io-client.js",
+    "socket.io-parser": "./socket.io-parser.js",
+    "yeast": "./yeast.js"
+  }
+}
