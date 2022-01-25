@@ -1,1 +1,1 @@
-var discordBotUrl = 'http://localhost:3000';
+var discordBotUrl = 'http://localhost:8085';
