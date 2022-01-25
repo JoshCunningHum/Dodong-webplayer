@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodong Webplayer</title>
+    <link rel="stylesheet" href="Assets/css/lib.css">
+    <link rel="stylesheet" href="Assets/css/style.css">
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+</head>
+<body>
+
+    <!-- MAIN -->
+   <div class="flex h-100" id="mainCont">
+        <div id="nav"> <!-- Future multiple guild support in the future -->
+            <div id="dodongLogo" class="m-2">
+
+            </div>
+            <div class="center bebas">Webplayer</div>
+        </div>
+        <div class="p-2 flex-column" id="player-container">
+
+            <!-- Guild Display -->
+
+            <div class="bebas"> Now Playing @ <span class="rainbow uppercase" id="import_guildName">CIT-U BSCS</span> </div>
+
+            <!-- Player -->
+
+            <div class="bebas p-2 bSecondary mt-1 w-100">
+                <!-- Title -->
+                <div class="flex align-center gap-2 flex-wrap">
+                    <span class="font-bold font-larger" id="import_cTitle">
+                        A Stupidly long title of a song ugh whats the problem with the author
+                    </span>
+                    <span class="monospace font-smaller" id="import_cAuthor">author</span>
+                </div>
+
+                <!-- Requestor -->
+                <div class="monospace font-normal" id="import_cRequestor">
+                    nize
+                </div>
+
+                <!-- Seeker -->
+                <div>
+                    <input type="range" id="seek-range" value="0">
+                </div>
+
+                <!-- Player Controls -->
+                <div class="flex justify-center">
+                    <div class="flex space-between align-center" id="control-container">
+                        <button class="hidden"></button>
+                        <button id="playpauseButton">||</button>
+                        <button id="nextButton" class="pb-1">»</button>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="greyfont font-normal mt-1 uppercase" >Up Next</div>
+    
+            <!-- Queue and Filters -->
+
+            <div class="flex flex-wrap flex-grow">
+
+                <!-- Queue -->
+                <div id="queue-container" class="flex-grow">
+                    
+
+                </div>
+                <!-- Filters -->
+                <div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+   </div>
+
+   <!-- Connection Status -->
+   <div id="connectionStatus" class="fade">
+        Not Connected
+   </div>
+
+</body>
+<script src="config.js"></script>
+<script src="Assets/js/client.js"></script>
+</html>
