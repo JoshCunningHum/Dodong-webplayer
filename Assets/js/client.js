@@ -1,4 +1,4 @@
-import { io } from 'socket.io-client'
+import { io } from '../../_snowpack/pkg/socket.io-client.js'
 
 const socket = io(discordBotUrl, {
     reconnection: false
