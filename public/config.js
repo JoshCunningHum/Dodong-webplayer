@@ -1,1 +1,1 @@
-var discordBotUrl = 'http://localhost:8085';
+var discordBotUrl = 'https://dodong-test.herokuapp.com/';
