@@ -166,7 +166,7 @@ function recCurrentSong(res){
     if(res.isPlaying){
         startRangeAnimation(res.progress, res.durationMS);
     }else{
-        clearImmediate(progressInterval);
+        clearInterval(progressInterval);
     }
 }
 
