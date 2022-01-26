@@ -163,7 +163,7 @@ function recCurrentSong(res){
         stateToggler.classList.remove("paused");
     }
 
-    if(isPlaying){
+    if(res.isPlaying){
         startRangeAnimation(res.progress, res.durationMS);
     }else{
         clearImmediate(progressInterval);
