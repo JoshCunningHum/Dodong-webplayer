@@ -2,7 +2,6 @@
   "name": "dodong-webplayer",
   "version": "1.0.0",
   "description": "a client for learning socket.io",
-  "main": "home.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"

@@ -5,5 +5,5 @@ const app = express();
 app.use(express.static("public"))
 
 // start the server listening for requests
-app.listen(process.env.PORT || 3001, 
+app.listen(process.env.PORT || 8080, 
 	() => console.log("Server is running..."));

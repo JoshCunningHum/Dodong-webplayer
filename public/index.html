@@ -42,8 +42,10 @@
                 </div>
 
                 <!-- Seeker -->
-                <div>
-                    <input type="range" id="seek-range" value="0">
+                <div class="flex monospace font-small align-center gap-2">
+                    <span id="import_cProgress" >0:00</span>
+                    <input type="range" id="seek-range" value="0" min="0" max="100" step="0.1">
+                    <span id="import_cDuration">4:20</span>
                 </div>
 
                 <!-- Player Controls -->

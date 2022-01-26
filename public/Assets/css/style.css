@@ -44,8 +44,13 @@
     height: 40px;
 }
 
+#playpauseButton {
+    padding-left: .3rem;
+}
+
 #playpauseButton.paused {
     padding-bottom: .5rem;
+    padding-left: 0rem;
 }
 
 .queue_container {

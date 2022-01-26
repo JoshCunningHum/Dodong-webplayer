@@ -25,7 +25,7 @@ nextButton.addEventListener("click", e => {
 /* Seeker Update Here */
 
 var guildID; // This is the guildID for arcaneWars
-var queue, guildName, currentSong;
+var queue, guildName, currentSong, progressInterval, localProgress;
 
 window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -133,7 +133,6 @@ function recQueue(res){
 }
 
 function recCurrentSong(res){
-
     console.log(`Updating Current Song`);
     console.log(res);
 
@@ -144,23 +143,52 @@ function recCurrentSong(res){
             requestedBy: {
                 username: "Try adding some on discord or here (future update)"
             },
-            isPlaying: false
+            isPlaying: false,
+            duration: "4:20",
+            durationMS: 260000,
+            progress: 0
         }
     }
 
     document.getElementById("import_cTitle").innerHTML = res.title;
     document.getElementById("import_cAuthor").innerHTML = res.author;
     document.getElementById("import_cRequestor").innerHTML = res.requestedBy.username;
+    document.getElementById("import_cDuration").inner = res.duration;
 
-    if(res.isPlaying != (stateToggler.innerHTML == "||")){
-        if(stateToggler.innerHTML == "||"){
-            stateToggler.innerHTML = "▶";
-            stateToggler.classList.remove("paused");
-        }else{
-            stateToggler.innerHTML = "▶";
-            stateToggler.classList.add("paused");
-        }
+    if(res.isPlaying){
+        stateToggler.innerHTML = "||";
+        stateToggler.classList.add("paused");
+    }else{
+        stateToggler.innerHTML = "▶";
+        stateToggler.classList.remove("paused");
     }
+
+    startRangeAnimation(res.progress, res.durationMS);
+}
+
+function startRangeAnimation(progress, duration){
+
+    localProgress = progress / 1000;
+    duration = duration / 1000;
+    clearInterval(progressInterval);
+
+    progressInterval = setInterval((duration) => {
+        const progCont = document.getElementById("import_cProgress");
+        const slider = document.getElementById("seek-range");
+        const progPercent = (localProgress / duration) * 100;
+        const minProg = Math.floor(progress / 60);
+        const secProg = localProgress - (minProg * 60);
+
+        slider.value = progPercent;
+        progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
+
+        if(progPercent > 97){
+            clearInterval(progressInterval);
+        }
+
+        localProgress++;
+
+    }, 1000, duration);
 }
 
 function changeConnectStatus(status){
@@ -170,11 +198,22 @@ function changeConnectStatus(status){
         target.innerHTML = "Connected";
         target.style.background = "var(--dodong-secondary)";
     }else{
+        // Disconnected State
+
         target.innerHTML = "Not Connected";
         target.style.background = "var(--dodong-primary)";
+        clearInterval(progressInterval);
     }
 }
 
 function display(text){
     document.write(text);
+}
+
+function padd(integer, n){
+    let diff = n - String(integer).length;
+    if(diff > 0){
+        integer = "0".repeat(diff) + integer;
+    }
+    return integer;
 }
