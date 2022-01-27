@@ -1,20 +1,30 @@
-const socket = io(discordBotUrl, {
-    reconnection: false
+const socket = io.connect(discordBotUrl, {
+    reconnection: false,
+    secure: true
 });
+
+// Global Variables
+
+var guildID; // This is the guildID for arcaneWars
+var queue, guildName, currentSong, progressInterval, localProgress, cSongDuration;
 
 const stateToggler = document.getElementById('playpauseButton');
 const nextButton = document.getElementById("nextButton");
 const seekRange = document.getElementById("seekRange");
+
+// DOM Event Listeners
 
 stateToggler.addEventListener("click", e => {
     if(e.target.innerHTML == "||"){
         e.target.innerHTML = "▶";
         e.target.classList.remove("paused");
         socket.emit('pause', guildID);
+        clearInterval(progressInterval);
     }else{
         e.target.innerHTML = "||";
         e.target.classList.add("paused");
         socket.emit('resume', guildID);
+        startRangeAnimation(localProgress*1000, cSongDuration);
     }
 })
 
@@ -24,8 +34,29 @@ nextButton.addEventListener("click", e => {
 
 /* Seeker Update Here */
 
-var guildID; // This is the guildID for arcaneWars
-var queue, guildName, currentSong, progressInterval, localProgress;
+document.querySelectorAll('input[name="repeatState"]').forEach(el => {
+    el.addEventListener('click', function(){
+        let repeatType;
+
+        switch(this.id){
+            case "l_noRepeat":
+                repeatType = 0;
+                break;
+            case "l_queueRepeat":
+                repeatType = 2;
+                break;
+            case "l_trackRepeat":
+                repeatType = 1;
+                break;
+        }
+
+        socket.emit("loop", {
+            guild: guildID,
+            repeatType: repeatType
+        });
+    });
+})
+
 
 window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,6 +76,7 @@ window.onload = () => {
 
     socket.on('forceUpdate', () => {
         requestData();
+        console.log("forceUpdate signal received");
     })
 
     socket.on('recGuild', (res)=>{
@@ -73,6 +105,8 @@ window.onload = () => {
 }
 
 function requestData(){
+    console.clear();
+
     // Request for GuildName
     socket.emit('getGuild', guildID);
 
@@ -146,15 +180,34 @@ function recCurrentSong(res){
             isPlaying: false,
             duration: "4:20",
             durationMS: 260000,
-            progress: 0
+            progress: 0,
+            currentSong: 0,
+            repeatType: 0
         }
     }
 
+    // For Updating Player Details
     document.getElementById("import_cTitle").innerHTML = res.title;
     document.getElementById("import_cAuthor").innerHTML = res.author;
     document.getElementById("import_cRequestor").innerHTML = res.requestedBy.username;
-    document.getElementById("import_cDuration").inner = res.duration;
+    document.getElementById("import_cDuration").innerHTML = res.duration;
 
+    cSongDuration = res.durationMS;
+
+    // For updating Loop State
+    switch(res.repeatMode){
+        case 0:
+            document.getElementById("l_noRepeat").click();
+            break;
+        case 1:
+            document.getElementById("l_trackRepeat").click();
+            break;
+        case 2:
+            document.getElementById("l_queueRepeat").click();
+            break;
+    }
+
+    // Toggling stateToggler Symbol
     if(res.isPlaying){
         stateToggler.innerHTML = "||";
         stateToggler.classList.add("paused");
@@ -163,6 +216,7 @@ function recCurrentSong(res){
         stateToggler.classList.remove("paused");
     }
 
+    // Pause / Resume Slider Interval
     if(res.isPlaying){
         startRangeAnimation(res.progress, res.durationMS);
     }else{
@@ -172,21 +226,21 @@ function recCurrentSong(res){
 
 function startRangeAnimation(progress, duration){
 
-    localProgress = progress / 1000;
+    localProgress = Math.ceil(progress / 1000);
     duration = duration / 1000;
     clearInterval(progressInterval);
 
     progressInterval = setInterval((duration) => {
         const progCont = document.getElementById("import_cProgress");
         const slider = document.getElementById("seek-range");
-        const progPercent = (localProgress / duration) * 100;
-        const minProg = Math.floor(progress / 60);
-        const secProg = localProgress - (minProg * 60);
+        let progPercent = (localProgress / duration) * 100;
+        let minProg = Math.floor(localProgress / 60);
+        let secProg = localProgress - (minProg * 60);
 
         slider.value = progPercent;
         progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
 
-        if(progPercent > 97){
+        if(progPercent >= 99.99){
             clearInterval(progressInterval);
         }
 

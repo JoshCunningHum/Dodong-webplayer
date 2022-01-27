@@ -94,6 +94,33 @@
     transition: all 1s ease-in-out;
 }
 
+.radio-type1 {
+    display: flex;
+}
+
+.radio-type1 input {
+    display: none;
+}
+
+.radio-type1 input:checked + label {
+    background: var(--dodong-secondary);
+    color: var(--primary);
+}
+
+.radio-type1 input:checked:first-of-type + label {
+    background: var(--dodong-primary);
+}
+
+.radio-type1 label {
+    /* font-size: 1.2rem; */
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
 #queue-container.empty {
     display: flex;
     align-items: center;
@@ -118,5 +145,8 @@
         display: flex;
         justify-content: center;
         height: 100px;
+    }
+    html,body {
+        overflow-y: auto;
     }
 }

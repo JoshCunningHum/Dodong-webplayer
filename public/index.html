@@ -59,7 +59,22 @@
                 
             </div>
 
-            <div class="greyfont font-normal mt-1 uppercase" >Up Next</div>
+            <div class="greyfont flex font-normal mt-1 uppercase space-between align-center" >
+                <span>
+                    Up Next
+                </span>
+                <span class="flex align-center">
+                    Loop
+                    <span class="radio-type1 ml-2">
+                        <input type="radio" name="repeatState" id="l_noRepeat" checked>
+                        <label for="l_noRepeat">🞭</label>
+                        <input type="radio" name="repeatState" id="l_queueRepeat">
+                        <label for="l_queueRepeat">Q</label>
+                        <input type="radio" name="repeatState" id="l_trackRepeat">
+                        <label for="l_trackRepeat">T</label>
+                    </span>
+                </span>
+            </div>
     
             <!-- Queue and Filters -->
 
