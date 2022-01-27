@@ -130,21 +130,46 @@
     color: grey;
 }
 
+#navCont {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+}
+
+#navCont button {
+    font-size: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--tritiary);
+    border: none;
+    padding: 0.5rem;
+    font-weight: lighter;
+}
+
+#navCont button.selected {
+    color: #cecece;
+}
+
 @media (orientation: portrait) {
     #dodongLogo {
         background-image: url(../pictures/dodong.svg);
         height: 125px;
+        width: 200px;
+        align-self: center;
+        background-position: center;
     }
     #dodongLogo + div {
         display: none;
     }
     #mainCont {
-        display: grid;
+        flex-direction: column;
     }
     #nav {
         display: flex;
         justify-content: center;
-        height: 100px;
+        flex-direction: column;
+        height: 150px;
     }
     html,body {
         overflow-y: auto;

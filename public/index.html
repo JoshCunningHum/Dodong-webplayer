@@ -13,83 +13,96 @@
 
     <!-- MAIN -->
    <div class="flex h-100" id="mainCont">
+
         <div id="nav"> <!-- Future multiple guild support in the future -->
             <div id="dodongLogo" class="m-2">
 
             </div>
             <div class="center bebas">Webplayer</div>
+            <div id="navCont">
+                <button class="selected">Player</button>
+                <button>Settings</button>
+            </div>
         </div>
-        <div class="p-2 flex-column" id="player-container">
 
-            <!-- Guild Display -->
-
-            <div class="bebas"> Now Playing @ <span class="rainbow uppercase" id="import_guildName">GUILD SAMPLE</span> </div>
+        <div class="p-2 flex-column w-100" id="pageCont">
 
             <!-- Player -->
-
-            <div class="bebas p-2 bSecondary mt-1 w-100">
-                <!-- Title -->
-                <div class="flex align-center gap-2 flex-wrap">
-                    <span class="font-bold font-larger" id="import_cTitle">
-                        A Stupidly long title of a song ugh whats the problem with the author
-                    </span>
-                    <span class="monospace font-smaller" id="import_cAuthor">author</span>
-                </div>
-
-                <!-- Requestor -->
-                <div class="monospace font-normal" id="import_cRequestor">
-                    nize
-                </div>
-
-                <!-- Seeker -->
-                <div class="flex monospace font-small align-center gap-2">
-                    <span id="import_cProgress" >0:00</span>
-                    <input type="range" id="seek-range" value="0" min="0" max="100" step="0.1">
-                    <span id="import_cDuration">4:20</span>
-                </div>
-
-                <!-- Player Controls -->
-                <div class="flex justify-center">
-                    <div class="flex space-between align-center" id="control-container">
-                        <button class="hidden"></button>
-                        <button id="playpauseButton">||</button>
-                        <button id="nextButton" class="pb-1">»</button>
-                    </div>
-                </div>
-                
-            </div>
-
-            <div class="greyfont flex font-normal mt-1 uppercase space-between align-center" >
-                <span>
-                    Up Next
-                </span>
-                <span class="flex align-center">
-                    Loop
-                    <span class="radio-type1 ml-2">
-                        <input type="radio" name="repeatState" id="l_noRepeat" checked>
-                        <label for="l_noRepeat">🞭</label>
-                        <input type="radio" name="repeatState" id="l_queueRepeat">
-                        <label for="l_queueRepeat">Q</label>
-                        <input type="radio" name="repeatState" id="l_trackRepeat">
-                        <label for="l_trackRepeat">T</label>
-                    </span>
-                </span>
-            </div>
+            <div id="player-container">
+                <!-- Guild Display -->
+                <div class="bebas"> Now Playing @ <span class="rainbow uppercase" id="import_guildName">GUILD SAMPLE</span> </div>
     
-            <!-- Queue and Filters -->
-
-            <div class="flex flex-wrap flex-grow">
-
-                <!-- Queue -->
-                <div id="queue-container" class="flex-grow">
+                <!-- Player -->
+    
+                <div class="bebas p-2 bSecondary mt-1 w-100">
+                    <!-- Title -->
+                    <div class="flex align-center gap-2 flex-wrap">
+                        <span class="font-bold font-larger" id="import_cTitle">
+                            A Stupidly long title of a song ugh whats the problem with the author
+                        </span>
+                        <span class="monospace font-smaller" id="import_cAuthor">author</span>
+                    </div>
+    
+                    <!-- Requestor -->
+                    <div class="monospace font-normal" id="import_cRequestor">
+                        nize
+                    </div>
+    
+                    <!-- Seeker -->
+                    <div class="flex monospace font-small align-center gap-2">
+                        <span id="import_cProgress" >0:00</span>
+                        <input type="range" id="seek-range" value="0" min="0" max="100" step="0.1">
+                        <span id="import_cDuration">4:20</span>
+                    </div>
+    
+                    <!-- Player Controls -->
+                    <div class="flex justify-center">
+                        <div class="flex space-between align-center" id="control-container">
+                            <button class="hidden"></button>
+                            <button id="playpauseButton">||</button>
+                            <button id="nextButton" class="pb-1">»</button>
+                        </div>
+                    </div>
                     
-
                 </div>
-                <!-- Filters -->
-                <div>
-
+    
+                <div class="greyfont flex font-normal mt-1 uppercase space-between align-center" >
+                    <span>
+                        Up Next
+                    </span>
+                    <span class="flex align-center">
+                        Loop
+                        <span class="radio-type1 ml-2">
+                            <input type="radio" name="repeatState" id="l_noRepeat" checked>
+                            <label for="l_noRepeat">🞭</label>
+                            <input type="radio" name="repeatState" id="l_queueRepeat">
+                            <label for="l_queueRepeat">Q</label>
+                            <input type="radio" name="repeatState" id="l_trackRepeat">
+                            <label for="l_trackRepeat">T</label>
+                        </span>
+                    </span>
                 </div>
+        
+                <!-- Queue and Filters -->
+    
+                <div class="flex flex-wrap flex-grow">
+    
+                    <!-- Queue -->
+                    <div id="queue-container" class="flex-grow">
+                        
+    
+                    </div>
+                    <!-- Filters -->
+                    <div>
+    
+                    </div>
+    
+                </div>
+            </div>
 
+            <!-- Settings -->
+            <div class="p-3">
+                    Nothing here for now, but there will be in the future!
             </div>
 
 
@@ -103,5 +116,9 @@
 
 </body>
 <script src="config.js"></script>
+<script src="Assets/js/utilities.js"></script>
+<script src="Assets/js/global.js"></script>
+<script src="Assets/js/domListeners.js"></script>
+<script src="Assets/js/listeners.js"></script>
 <script src="Assets/js/client.js"></script>
 </html>
