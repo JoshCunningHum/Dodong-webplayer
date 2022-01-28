@@ -6,12 +6,12 @@ stateToggler.addEventListener("click", e => {
     if(e.target.innerHTML == "||"){
         e.target.innerHTML = "▶";
         e.target.classList.remove("paused");
-        socket.emit('pause', guildID);
+        discordPlayerControl("pause");
         clearInterval(progressInterval);
     }else{
         e.target.innerHTML = "||";
         e.target.classList.add("paused");
-        socket.emit('resume', guildID);
+        discordPlayerControl("play");
         startRangeAnimation(localProgress*1000, cSongDuration);
     }
 })
@@ -19,7 +19,7 @@ stateToggler.addEventListener("click", e => {
 
 // Next Button
 nextButton.addEventListener("click", e => {
-    socket.emit("skip", guildID);
+    discordPlayerControl("skip");
 })
 
 /* Seeker Update Here */
@@ -41,13 +41,13 @@ document.querySelectorAll('input[name="repeatState"]').forEach(el => {
                 break;
         }
 
-        socket.emit("loop", {
-            guild: guildID,
+        discordPlayerControl("loop", {
             repeatType: repeatType
-        });
+        })
     });
 })
 
+// Tab Change
 Array.from(document.getElementById("navCont").children).forEach(el => {
     el.addEventListener("click", function() {
         if(this.classList.contains('selected')){
@@ -60,15 +60,6 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
         this.classList.add("selected");
         const thisIndex = siblings.indexOf(this);
 
-        const pageCont = document.getElementById("pageCont");
-        const pages = Array.from(pageCont.children);
-        pages.forEach((page, i) => {
-            if(i != thisIndex){
-                page.classList.add("sr-only");
-            }else{
-                page.classList.remove("sr-only");
-            }
-        })
-
+        changePage(thisIndex);
     });
 })

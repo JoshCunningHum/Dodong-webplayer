@@ -66,6 +66,7 @@
                     
                 </div>
     
+                <!-- Loop -->
                 <div class="greyfont flex font-normal mt-1 uppercase space-between align-center" >
                     <span>
                         Up Next
@@ -84,19 +85,30 @@
                 </div>
         
                 <!-- Queue and Filters -->
+                <div class="flex flex-grow">
     
-                <div class="flex flex-wrap flex-grow">
-    
-                    <!-- Queue -->
-                    <div id="queue-container" class="flex-grow">
-                        
-    
+                    <div class="flex flex-grow flex-column">
+        
+                        <!-- Queue -->
+                        <div id="queue-container" class="flex-grow">
+                            
+        
+                        </div>
+                        <!-- Add Song Feature -->
+                        <div id="add_song" class="mb-1 flex gap-1">
+                            <input type="text" placeholder="Add songs here">
+                            <select id="voiceChannel-select">
+                                
+                            </select>
+                        </div>
+        
                     </div>
+
                     <!-- Filters -->
                     <div>
-    
+
                     </div>
-    
+                    
                 </div>
             </div>
 

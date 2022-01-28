@@ -43,9 +43,25 @@ function changeConnectStatus(status){
         target.style.background = "var(--dodong-secondary)";
     }else{
         // Disconnected State
-
         target.innerHTML = "Not Connected";
         target.style.background = "var(--dodong-primary)";
         clearInterval(progressInterval);
     }
+}
+
+function changePage(index){
+    const pages = Array.from(document.getElementById("pageCont").children);
+    pages.forEach((page, i) => {
+        if(i != index){
+            page.classList.add("sr-only");
+        }else{
+            page.classList.remove("sr-only");
+        }
+    })
+}
+
+function discordPlayerControl(control_type, args = {}){
+    args.guild = guildID;
+    args.type = control_type;
+    socket.emit('controlSignal', args);
 }

@@ -17,9 +17,19 @@
     background: var(--secondary);
 }
 
+#pageCont {
+    position: relative;
+}
+
+#pageCont > div{
+    flex-grow: 1;
+}
+
 #player-container {
+    display: flex;
+    flex-direction: column;
     font-size: 2rem;
-    width: 100%;
+    flex-grow: 1;
 }
 
 #control-container {
@@ -149,6 +159,18 @@
 
 #navCont button.selected {
     color: #cecece;
+}
+
+#add_song input{
+    width: 100%;
+    padding: .5rem .5rem;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    color: white;
+    box-shadow: inset 0px 0px 10px 5px var(--primary);
+    border: 2px solid var(--tritiary);
+    font-size: 1rem;
+    font-family: monospace;
 }
 
 @media (orientation: portrait) {

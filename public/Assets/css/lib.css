@@ -64,7 +64,7 @@ html, body {
 /* Styling Classes */
 
 .sr-only {
-    display: none;
+    display: none !important;
 }
 
 .hidden {

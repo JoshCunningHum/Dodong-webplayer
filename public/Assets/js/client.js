@@ -1,16 +1,18 @@
 const socket = io.connect(discordBotUrl, {
     reconnection: false,
-    secure: true
+    secure: true,
+    'timeout': 5000,
+    'connect timeout': 5000
 });
 
 window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search);
     guildID = urlParams.get("guildID");
 
-    recCurrentSong();
+    recData();
 
     // Monitors connection status
-    socket.on('connect', () => {
+    socket.on('connect', async () => {
         changeConnectStatus(socket.connected);
 
         // Force this socket to enter the guild room
@@ -19,21 +21,19 @@ window.onload = () => {
         requestData();
     });
 
-    socket.on('forceUpdate', () => {
+    socket.on('forceUpdate', async () => {
         requestData();
         console.log("forceUpdate signal received");
     })
 
-    socket.on('recGuild', (res)=>{
-        recGuildName(res);
-    });
-    socket.on('recQueue', (res) => {
-        recQueue(res);
-    });
-    socket.on('recCurrentSong', (res) => {
-        recCurrentSong(res);
+    // For Receiving Data (All in One)
+    socket.on("recData", async (res) => {
+        recData(res);
     })
-    socket.on('log', (res) => {
+
+
+    // Development Purposes
+    socket.on('log', async (res) => {
         console.log(`Logging Someting`);
         console.log(res);
     })
@@ -41,5 +41,7 @@ window.onload = () => {
     setInterval( () => {
         changeConnectStatus(socket.connected);
     }, 1000);
+
+    changePage(0);
 }
 
