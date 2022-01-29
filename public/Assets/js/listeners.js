@@ -1,3 +1,5 @@
+const { del } = require("express/lib/application");
+
 function requestData(){
     console.clear();
 
@@ -28,7 +30,6 @@ function recData(res){
 
     // If no queue is found
     if(!res.current){
-
         queueCont.innerHTML = "There are no upcoming songs";
         queueCont.classList.add("empty");
 
@@ -42,20 +43,29 @@ function recData(res){
 
     // Queue Update
     for(let i of res.tracks){
-        const inner = `
-        <span>
-            <span>${i.title}</span>
-            <span>${i.author}</span>
-        </span>
-        <span>
-            <span>${i.requestedBy.username}</span>
-            <span>${i.duration}</span>
-        </span>`;
+        const inner = `<div>
+            <span>
+                <span>${i.title}</span>
+                <span>${i.author}</span>
+            </span>
+            <span>
+                <span>${i.requestedBy.username}</span>
+                <span>${i.duration}</span>
+            </span>
+        </div>`;
 
         const queueItem = document.createElement("div");
         queueItem.classList.add("queue_item");
         queueItem.innerHTML = inner;
 
+        const delBtn = document.createElement("btn");
+        delBtn.innerHTML = "🗑";
+        delBtn.classList.add("delTrack");
+        delBtn.addEventListener("click", function(){
+            deleteTrack(this);
+        });
+
+        queueItem.append(delBtn);
         queueCont.append(queueItem);
     }
 
@@ -92,5 +102,9 @@ function recData(res){
         stateToggler.classList.remove("paused");
         clearInterval(progressInterval);
     }
+}
+
+function displayError(err){
+    alert(err);
 }
 

@@ -86,3 +86,13 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
     this.value = "";
 
  });
+
+ // Removes songs
+ function deleteTrack(btn){
+    let trackIndex = Array.from(document.getElementById("queue-container").children).indexOf(btn.parentElement);
+
+    discordPlayerControl("remove", {
+        trackIndex: trackIndex
+    })
+ };
+ 

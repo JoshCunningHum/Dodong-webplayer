@@ -73,22 +73,41 @@
     padding: .5rem 0;
     color: white;
     border-bottom: thin dashed white;
+    display: flex;
 }
 
-.queue_item > span:first-child {
+.queue_item > div {
+    flex-grow: 1;
+}
+
+.queue_item > div > span:first-child {
     display: flex;
     align-items: center;
 }
 
-.queue_item > span:last-child {
+.queue_item > div > span:last-child {
     display: flex;
     justify-content: space-between;
 }
 
-.queue_item > span:first-child > span:first-child {
+.queue_item > div > span:first-child > span:first-child {
     font-family: Bebas;
     font-size: 1.5rem;
     margin-right: .5rem;
+}
+
+.delTrack {
+    font-size: 2rem;
+    padding: 0rem 0.5rem;
+    color: var(--dodong-primary);
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    display: none;
+}
+
+.queue_item:hover > .delTrack {
+    display: initial;
 }
 
 #connectionStatus {

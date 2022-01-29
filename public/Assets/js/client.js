@@ -41,6 +41,11 @@ window.onload = () => {
         console.log(res);
     })
 
+    // Error
+    socket.on('error', async (err) => {
+        displayError(err);
+    } )
+
     setInterval( () => {
         changeConnectStatus(socket.connected);
     }, 1000);
