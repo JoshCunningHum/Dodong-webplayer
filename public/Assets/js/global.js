@@ -1,7 +1,7 @@
 // Global Variables
 
 var guildID; // This is the guildID for arcaneWars
-var queue, guildName, currentSong, progressInterval, localProgress, cSongDuration;
+var queue, guildName, currentSong, progressInterval, localProgress, cSongDuration, inVoiceChannel;
 
 const stateToggler = document.getElementById('playpauseButton');
 const nextButton = document.getElementById("nextButton");

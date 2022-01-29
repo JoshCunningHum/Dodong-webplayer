@@ -63,3 +63,26 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
         changePage(thisIndex);
     });
 })
+
+ // Play Feature
+ document.querySelector("#add_song > input").addEventListener("change", function(){
+    let query = this.value;
+    if(!query || query.length == 0){
+        alert("Please Type Something");
+        return;
+    }
+
+    if(!inVoiceChannel){
+        alert("The bot is not in a voice channel");
+        return;
+    }
+
+    socket.emit("play", {
+        guild: guildID,
+        query: query,
+        voiceChannelID: inVoiceChannel
+    });
+
+    this.value = "";
+
+ });

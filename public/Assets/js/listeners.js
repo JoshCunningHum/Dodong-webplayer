@@ -9,13 +9,25 @@ function recData(res){
     console.log(`Updating Player`);
     console.log(res);
 
+    // Default : If there are no next tracks
     const queueCont = document.getElementById("queue-container");
     queueCont.innerHTML = "";
     queueCont.classList.remove("empty");
 
+    // If no guild is found, it receives an undefined data
     if(res == null){
-        // display("Error: this link seems to be outdated or modified. GUILD_ID no match. If I am wrong then try to refresh");
-        // socket.disconnect();
+        display("Error: this link seems to be outdated or modified. GUILD_ID no match. If I am wrong then try to refresh");
+        socket.disconnect();
+
+        return;
+    }
+
+    // Guild Name Update
+    guildName = res.guildName;
+    document.getElementById("import_guildName").innerHTML = guildName;
+
+    // If no queue is found
+    if(!res.current){
 
         queueCont.innerHTML = "There are no upcoming songs";
         queueCont.classList.add("empty");
@@ -24,12 +36,9 @@ function recData(res){
         document.getElementById("import_cAuthor").innerHTML = "";
         document.getElementById("import_cRequestor").innerHTML = "Try adding one on discord or in here";
         document.getElementById("import_cDuration").innerHTML = 0;
+
         return;
     }
-
-    // Guild Name Update
-    guildName = res.guildName;
-    document.getElementById("import_guildName").innerHTML = guildName;
 
     // Queue Update
     for(let i of res.tracks){
@@ -56,7 +65,9 @@ function recData(res){
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
     
+    // Global Variables
     cSongDuration = res.current.durationMS;
+    inVoiceChannel = res.inVoiceChannel;
 
     // Loop State Update
     switch(res.repeatMode){

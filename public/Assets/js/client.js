@@ -9,7 +9,10 @@ window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search);
     guildID = urlParams.get("guildID");
 
-    recData();
+    changePage(0);
+    recData({
+        guildName: "Guild Sample"
+    });
 
     // Monitors connection status
     socket.on('connect', async () => {
@@ -21,9 +24,9 @@ window.onload = () => {
         requestData();
     });
 
-    socket.on('forceUpdate', async () => {
+    socket.on('forceUpdate', async (res) => {
         requestData();
-        console.log("forceUpdate signal received");
+        console.log("ForceUpdate from: " + res.from);
     })
 
     // For Receiving Data (All in One)
@@ -42,6 +45,5 @@ window.onload = () => {
         changeConnectStatus(socket.connected);
     }, 1000);
 
-    changePage(0);
 }
 
