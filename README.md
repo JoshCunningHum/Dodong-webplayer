@@ -3,7 +3,6 @@
 
 ## Note
 Change `discordBotUrl` on `config.js` under `/public/` folder
-
-    ```
-    discordBotUrl: "DISCORD BOT URL HERE",
-    ```
+```js
+var discordBotUrl = "DISCORD BOT URL HERE"; 
+```
