@@ -11,7 +11,7 @@ stateToggler.addEventListener("click", e => {
     }else{
         e.target.innerHTML = "||";
         e.target.classList.add("paused");
-        discordPlayerControl("play");
+        discordPlayerControl("resume");
         startRangeAnimation(localProgress*1000, cSongDuration);
     }
 })
@@ -64,7 +64,7 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
     });
 })
 
- // Play Feature
+ // Play / Add Song Feature
  document.querySelector("#add_song > input").addEventListener("change", function(){
     let query = this.value;
     if(!query || query.length == 0){
