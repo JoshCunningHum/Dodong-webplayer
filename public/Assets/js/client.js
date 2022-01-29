@@ -30,7 +30,7 @@ window.onload = () => {
     })
 
     // For Receiving Data (All in One)
-    socket.on("recData", (res) => {
+    socket.on("recData", async (res) => {
         recData(res);
     })
 

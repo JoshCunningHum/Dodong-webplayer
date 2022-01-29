@@ -5,4 +5,4 @@ var queue, guildName, currentSong, progressInterval, localProgress, cSongDuratio
 
 const stateToggler = document.getElementById('playpauseButton');
 const nextButton = document.getElementById("nextButton");
-const seekRange = document.getElementById("seekRange");
+const seekRange = document.getElementById("seek-range");

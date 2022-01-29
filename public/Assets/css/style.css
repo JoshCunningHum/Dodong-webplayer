@@ -74,6 +74,11 @@
     color: white;
     border-bottom: thin dashed white;
     display: flex;
+    cursor: pointer;
+}
+
+.queue_item:hover {
+    background: var(--secondary);
 }
 
 .queue_item > div {

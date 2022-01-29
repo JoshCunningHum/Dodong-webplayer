@@ -72,6 +72,7 @@ function recData(res){
     document.getElementById("import_cAuthor").innerHTML = res.current.author;
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
+    document.getElementById("seek-range").setAttribute("max", Math.floor(res.current.durationMS / 1000));
     
     // Global Variables
     cSongDuration = res.current.durationMS;

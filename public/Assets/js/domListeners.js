@@ -22,7 +22,12 @@ nextButton.addEventListener("click", e => {
     discordPlayerControl("skip");
 })
 
-/* Seeker Update Here */
+// Seek
+seekRange.addEventListener("change", function(){
+    discordPlayerControl("seek", {
+        prog: this.value
+    })
+})
 
 // Loop State Change
 document.querySelectorAll('input[name="repeatState"]').forEach(el => {

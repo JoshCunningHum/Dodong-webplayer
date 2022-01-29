@@ -19,14 +19,14 @@ function startRangeAnimation(progress, duration){
     progressInterval = setInterval((duration) => {
         const progCont = document.getElementById("import_cProgress");
         const slider = document.getElementById("seek-range");
-        let progPercent = (localProgress / duration) * 100;
         let minProg = Math.floor(localProgress / 60);
         let secProg = localProgress - (minProg * 60);
 
-        slider.value = progPercent;
+        slider.setAttribute("value", localProgress);
+        slider.value = localProgress;
         progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
 
-        if(progPercent >= 99.99){
+        if(localProgress >= duration - 2){ // Stop the animation 2 seconds before finish
             clearInterval(progressInterval);
         }
 
