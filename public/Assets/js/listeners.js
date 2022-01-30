@@ -1,5 +1,5 @@
 function requestData(){
-    // console.clear();
+    console.clear();
 
     // request for Data
     socket.emit("getData", guildID);
