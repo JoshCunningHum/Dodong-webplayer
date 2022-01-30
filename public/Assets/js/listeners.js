@@ -1,5 +1,5 @@
 function requestData(){
-    console.clear();
+    // console.clear();
 
     // request for Data
     socket.emit("getData", guildID);
@@ -26,18 +26,53 @@ function recData(res){
     guildName = res.guildName;
     document.getElementById("import_guildName").innerHTML = guildName;
 
+    // Saves the guild for later use (Login page)
+    if(guildID && res.guildName && res.guildName != "Guild Sample"){
+        let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
+        if(savedGuilds != null && savedGuilds != undefined){
+            let guildFound = false;
+            for(let i of savedGuilds){
+                if(i.id == guildID){
+                    // always set the name incase of an update
+                    i.name = res.guildName;
+                    guildFound = true;
+                    break;
+                }
+            }
+            if(!guildFound){
+                savedGuilds.push({
+                    id: guildID,
+                    name: res.guildName
+                });
+                localStorage.setItem("savedGuilds",JSON.stringify(savedGuilds));
+                updateGuildSelect();
+            }
+        }else{
+            console.log(`Initial SavedGuilds\n${savedGuilds}`);
+            savedGuilds = [];
+            savedGuilds.push({
+                id: guildID,
+                name: res.guildName
+            });
+            localStorage.setItem("savedGuilds",JSON.stringify(savedGuilds));
+            updateGuildSelect();
+        }
+    }
+
     // If no queue is found
     if(!res.current){
         queueCont.innerHTML = "There are no upcoming songs";
         queueCont.classList.add("empty");
 
-        document.getElementById("import_cTitle").innerHTML = "There are current no songs being played";
+        document.getElementById("import_cTitle").innerHTML = "No song is currently being played";
         document.getElementById("import_cAuthor").innerHTML = "";
         document.getElementById("import_cRequestor").innerHTML = "Try adding one on discord or in here";
         document.getElementById("import_cDuration").innerHTML = 0;
 
         return;
     }
+
+    let trackCount = 0;
 
     // Queue Update
     for(let i of res.tracks){
@@ -55,6 +90,7 @@ function recData(res){
         const queueItem = document.createElement("div");
         queueItem.classList.add("queue_item");
         queueItem.innerHTML = inner;
+        queueCont.dataset.index = trackCount;
 
         const delBtn = document.createElement("btn");
         delBtn.innerHTML = "🗑";
@@ -65,6 +101,8 @@ function recData(res){
 
         queueItem.append(delBtn);
         queueCont.append(queueItem);
+
+        trackCount++;
     }
 
     // Player Details Update
@@ -104,6 +142,13 @@ function recData(res){
 }
 
 function displayError(err){
-    alert(err);
+    switch(err.type){
+        case "NO_GUILD":
+            changePage(0);
+            disableNav();
+            removeGuildonLocal(err.guildID);
+            console.log(`GUILD_ID:${err.guildID} not found on discord bot`);
+            break;
+    }
 }
 

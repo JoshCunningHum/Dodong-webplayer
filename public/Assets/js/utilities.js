@@ -57,11 +57,59 @@ function changePage(index){
         }else{
             page.classList.remove("sr-only");
         }
-    })
+    });
+
+    const buttons = Array.from(document.getElementById("navCont").querySelectorAll(":scope > button"));
+
+    buttons.forEach( (el, i) => { el.classList.remove("selected")});
+    buttons[index].classList.add("selected");
 }
 
 function discordPlayerControl(control_type, args = {}){
     args.guild = guildID;
     args.type = control_type;
     socket.emit('controlSignal', args);
+}
+
+function disableNav(state = true){
+    $("#navCont > button").each( (i, el) => {
+        $(el).attr("disabled", state);
+    })
+}
+
+function selectItem(select, value){
+    for(let i = 0; i < select.options.length; i++){
+        if(select.options[i].value == value){
+            select.selectedIndex = i;
+            break;
+        }
+    }
+}
+
+function updateGuildSelect(){
+    const savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
+    if(savedGuilds != null && savedGuilds != undefined){
+        const guildSelect = document.querySelector("#login > fieldset > select.monospace");
+        guildSelect.innerHTML = "";
+        $(guildSelect).append(`<option value="0">Choose a guild</option>`);
+        for(let i of savedGuilds){
+            $(guildSelect).append(`<option value="${i.id}">${i.name}</option>`);
+        }
+        $(guildSelect).attr("disabled", false);
+    }
+}
+
+function removeGuildonLocal(id){
+    let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
+    if(savedGuilds != undefined || savedGuilds != null){
+        for(let i in savedGuilds){
+            if(savedGuilds[i].id == id){
+                console.log(`${i} is deleted`);
+                savedGuilds.splice(i, 1);
+                localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
+                break;
+            }
+        }
+    }
+    updateGuildSelect();
 }

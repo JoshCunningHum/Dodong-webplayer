@@ -1,3 +1,19 @@
+/* Disables the number increment button on input[type=number]*/
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Disables the number increment button on input[type=number]*/
+
 #dodongLogo {
     background-image: url(../pictures/dlogoonly.svg);
     height: 150px;
@@ -11,6 +27,36 @@
     font-size: 2.2rem;
     text-align: center;
     color: var(--dodong-secondary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.strikeThrough {
+    overflow: hidden;
+    text-align: center;
+}
+
+.strikeThrough:after,
+.strikeThrough::before {
+    background-color: white;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.strikeThrough::before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+
+.strikeThrough::after {
+    left: 0.5em;
+    margin-right: -50%;
 }
 
 #nav {
@@ -75,6 +121,7 @@
     border-bottom: thin dashed white;
     display: flex;
     cursor: pointer;
+    padding-left: .5rem;
 }
 
 .queue_item:hover {
@@ -181,8 +228,51 @@
     font-weight: lighter;
 }
 
+#navCont button:disabled {
+    color: var(--dodong-primary);
+}
+
 #navCont button.selected {
     color: #cecece;
+}
+
+#login > fieldset {
+    padding: 2rem;
+    min-width: 250px;
+    width: 100%;
+    max-width: 500px;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+#login > fieldset > legend {
+    padding: 0 .5rem;
+    font-size: 2rem;
+}
+
+#login > fieldset input,
+#login > fieldset select {
+    padding: .5rem;
+    border-radius: 5px;
+    border: 2px solid var(--tritiary);
+}
+
+#loginGuildBtn {
+    padding: .5rem;
+    background: var(--dodong-secondary);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0.9;
+    border-radius: 5px;
+}
+
+#loginGuildBtn:hover {
+    opacity: 1;
+}
+
+#loginGuildBtn:active {
+    background-color: var(--dodong-primary);
 }
 
 #add_song input{

@@ -1,18 +1,31 @@
-const socket = io.connect(discordBotUrl, {
-    reconnection: false,
-    secure: true,
-    'timeout': 5000,
-    'connect timeout': 5000
-});
+var socket;
 
 window.onload = () => {
+    socket = io.connect(discordBotUrl, {
+        reconnection: false,
+        secure: true
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     guildID = urlParams.get("guildID");
 
     changePage(0);
-    recData({
-        guildName: "Guild Sample"
-    });
+    disableNav();
+    // recData({
+    //     guildName: "Guild Sample"
+    // });
+
+    if(!guildID){
+        displayError({
+            type: "NO_GUILD"
+        })
+    }else{
+        changePage(1);
+        disableNav(false);
+    }
+
+    // Updates the guild select option for the login page
+    updateGuildSelect();
 
     // Monitors connection status
     socket.on('connect', async () => {
@@ -21,7 +34,10 @@ window.onload = () => {
         // Force this socket to enter the guild room
         socket.emit('joinGuild', guildID);
 
-        requestData();
+        // Waits for 0.25 second - fix for the webplayer being unreponsive on first visit
+        setTimeout(() => {
+            requestData();
+        }, 250);
     });
 
     socket.on('forceUpdate', async (res) => {
@@ -50,5 +66,12 @@ window.onload = () => {
         changeConnectStatus(socket.connected);
     }, 1000);
 
+    // Makes the queue container sortable
+    $("#queue-container").sortable({
+        axis: "y",
+        update: function(event, ui) {
+            console.log("Reordered");
+        }
+    })
 }
 

@@ -22,12 +22,13 @@ nextButton.addEventListener("click", e => {
     discordPlayerControl("skip");
 })
 
+// Disabled for now since it is laggy
 // Seek
-seekRange.addEventListener("change", function(){
-    discordPlayerControl("seek", {
-        prog: this.value
-    })
-})
+// seekRange.addEventListener("change", function(){
+//     discordPlayerControl("seek", {
+//         prog: this.value
+//     })
+// })
 
 // Loop State Change
 document.querySelectorAll('input[name="repeatState"]').forEach(el => {
@@ -60,9 +61,6 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
         }
 
         const siblings = Array.from(this.parentElement.querySelectorAll(":scope > button"));
-        siblings.forEach(el => el.classList.remove('selected'));
-
-        this.classList.add("selected");
         const thisIndex = siblings.indexOf(this);
 
         changePage(thisIndex);
@@ -101,3 +99,23 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
     })
  };
  
+ // Login Button
+ document.getElementById("loginGuildBtn").addEventListener("click", function(){
+     const guildInput = document.getElementById("login_guildInput").value;
+     const guildSelect = this.parentElement.querySelector("select.monospace").value;
+
+    const currentURL = window.location.href.split("?")[0];
+
+     if(guildSelect != 0){ // if guild selected is not 0 then choose guildSelect
+        window.location.replace(`${currentURL}?guildID=${guildSelect}`);
+     }else{ // choose the inputted one instead
+        window.location.replace(`${currentURL}?guildID=${guildInput}`);
+     }
+ })
+
+ // Guild Input Automatic Login
+ document.getElementById("login_guildInput").addEventListener("change", function(){
+    const guildSelect = this.parentElement.querySelector("select.monospace");
+    selectItem(guildSelect, 0);
+    document.getElementById("loginGuildBtn").click();
+ });

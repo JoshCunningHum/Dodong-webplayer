@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dodong Webplayer</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/black-tie/jquery-ui.css">
     <link rel="stylesheet" href="Assets/css/lib.css">
     <link rel="stylesheet" href="Assets/css/style.css">
     <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 
@@ -19,13 +22,37 @@
 
             </div>
             <div class="center bebas">Webplayer</div>
-            <div id="navCont">
-                <button class="selected">Player</button>
+            <div id="navCont"> <!-- Navigation Buttons -->
+                <button class="selected">Login</button>
+                <button>Player</button>
                 <button>Settings</button>
             </div>
         </div>
 
         <div class="p-2 flex-column w-100" id="pageCont">
+
+            <!-- LOGIN -->
+            <div id="login" class="flex align-center justify-center">
+                <fieldset class="monospace flex-column justify-center">
+                    <legend class="uppercase text-center bebas">Guild Selection</legend>
+
+                    <input type="number" class="monospace" id="login_guildInput">
+                    <div class="mt-1">
+                        <label>Enter Guild ID</label>
+                    </div>
+                    <br>
+                    <div class="strikeThrough">OR</div>
+                    <br>
+                    <div class="mb-1">
+                        <label>Select saved guilds</label>
+                    </div>
+                    <select disabled class="monospace">
+                        <option value="0">No Guild Saved</option>
+                    </select>
+                    <button class="mt-2 bebas" id="loginGuildBtn">Enter</button>
+
+                </fieldset>
+            </div>
 
             <!-- Player -->
             <div id="player-container">
@@ -59,7 +86,7 @@
                     <div class="flex justify-center">
                         <div class="flex space-between align-center" id="control-container">
                             <button class="hidden"></button>
-                            <button id="playpauseButton">||</button>
+                            <button id="playpauseButton" class="paused">||</button>
                             <button id="nextButton" class="pb-1">»</button>
                         </div>
                     </div>
