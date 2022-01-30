@@ -23,8 +23,7 @@ function recData(res){
     }
 
     // Guild Name Update
-    guildName = res.guildName;
-    document.getElementById("import_guildName").innerHTML = guildName;
+    document.getElementById("import_guildName").innerHTML = res.guildName;
 
     // Saves the guild for later use (Login page)
     if(guildID && res.guildName && res.guildName != "Guild Sample"){

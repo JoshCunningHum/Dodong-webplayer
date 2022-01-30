@@ -1,13 +1,12 @@
 var socket;
 
 window.onload = () => {
+
     socket = io.connect(discordBotUrl, {
         reconnection: false,
         secure: true
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    guildID = urlParams.get("guildID");
 
     changePage(0);
     disableNav();

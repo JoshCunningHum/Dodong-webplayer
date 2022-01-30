@@ -1,7 +1,12 @@
 // Global Variables
+const urlParams = new URLSearchParams(window.location.search);
 
-var guildID; // This is the guildID for arcaneWars
-var queue, guildName, currentSong, progressInterval, localProgress, cSongDuration, inVoiceChannel, draggedTrack;
+const guildID = urlParams.get("guildID"); // IMPORTANT. found at query parameter
+
+var progressInterval, // For the progress animation
+localProgress, // For debugging purposes
+cSongDuration, // For debugging purposes
+inVoiceChannel; // For error handling
 
 const stateToggler = document.getElementById('playpauseButton');
 const nextButton = document.getElementById("nextButton");
