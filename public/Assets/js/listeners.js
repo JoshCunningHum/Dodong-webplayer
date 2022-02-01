@@ -47,7 +47,6 @@ function recData(res){
                 updateGuildSelect();
             }
         }else{
-            console.log(`Initial SavedGuilds\n${savedGuilds}`);
             savedGuilds = [];
             savedGuilds.push({
                 id: guildID,

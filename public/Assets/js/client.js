@@ -1,18 +1,20 @@
 var socket;
 
 window.onload = () => {
+    askBotURL().then( () => {
+        _init();
+    } );
+}
+
+function _init(){
 
     socket = io.connect(discordBotUrl, {
         reconnection: false,
         secure: true
     });
 
-
     changePage(0);
     disableNav();
-    // recData({
-    //     guildName: "Guild Sample"
-    // });
 
     if(!guildID){
         displayError({
@@ -73,4 +75,3 @@ window.onload = () => {
         }
     })
 }
-

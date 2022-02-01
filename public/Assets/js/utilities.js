@@ -113,3 +113,15 @@ function removeGuildonLocal(id){
     }
     updateGuildSelect();
 }
+
+async function askBotURL(){
+    let response = await fetch('/botURL', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        referrerPolicy: 'no-referrer'
+    })
+    discordBotUrl = await response.json();
+}
