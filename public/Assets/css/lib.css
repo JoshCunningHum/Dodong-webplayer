@@ -34,8 +34,8 @@
     --scrollbar-range-border: transparent;
     --scrollbar-thumb-bg: #9a9a9a;
     --scrollbar-thumb-border: transparent;
-    --scrollbar-thumb-radius: 50px;
-    --scrollbar-range-radius: 50px;
+    --scrollbar-thumb-radius: 0;
+    --scrollbar-range-radius: 0;
 
 }
 

@@ -14,6 +14,45 @@ input[type=number] {
 
 /* Disables the number increment button on input[type=number]*/
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.poppins {
+    font-family: Poppins;
+}
+
+.roboto {
+    font-family: Roboto;
+}
+
+
+.entirePage {
+    position: absolute !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0; bottom: 0; left: 0; right: 0;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.backArrows {
+    font-size: 2rem;
+    background: var(--secondary);
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #dodongLogo {
     background-image: url(../pictures/dlogoonly.svg);
     height: 150px;
@@ -67,37 +106,84 @@ input[type=number] {
     position: relative;
 }
 
-#pageCont > div{
-    flex-grow: 1;
+#MODAL > div {
+    background: var(--primary);
+}
+
+.fAwesome {
+    width: 100%;
+    height: 100%;
 }
 
 #player-container {
-    display: flex;
-    flex-direction: column;
-    font-size: 2rem;
-    flex-grow: 1;
+    max-height: 150px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 2rem;
+}
+
+#player-extra {
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr;
+    gap: 3rem;
+}
+
+#player-extra > button{
+    width: 35px;
+    height: 35px;
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+#player-extra > button:active > :is(svg, img) {
+    width: 30px;
+    height: 30px;
+}
+
+#repeatBtn.active {
+    color: var(--dodong-primary);
 }
 
 #control-container {
     width: 100%;
     max-width: 200px;
+    align-items: center;
 }
 
 #control-container button {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--tritiary);
+    background: var(--secondary);
     color: white;
+    border: none;
 }
 
 #control-container button:last-of-type {
     width: 40px;
     height: 40px;
+}
+
+#control-container > button:last-of-type:active :is(svg, img) {
+    width: 95%;
+    height: 95%;
+}
+
+#volume-slider {
+    height: 20px;
+    background: rgb(19,170,61);
+    background: linear-gradient(90deg, rgba(19,170,61,1) 0%, rgba(228,255,0,1) 47%, rgba(255,40,40,1) 90%);
+}
+
+#volume-slider > div {
+    background: var(--secondary);
+    right: 0;
+    width: 50%;
+    height: 100%;
 }
 
 #playpauseButton {
@@ -109,44 +195,29 @@ input[type=number] {
     padding-left: 0rem;
 }
 
-.queue_container {
-    flex-grow: 1 1 auto;
+#queue-container {
+    overflow-y: auto;
 }
 
 .queue_item {
     font-size: 1rem;
     font-family: monospace;
-    padding: .5rem 0;
     color: white;
-    border-bottom: thin dashed white;
-    display: flex;
+    border-bottom: thin solid var(--tritiary);
     cursor: pointer;
-    padding-left: .5rem;
+    display: grid;
+    grid-template-columns: 1fr 8fr 6fr 5fr 4fr;
+    padding: .7rem 0;
+}
+
+.queue_item > div:first-of-type {
+    text-align: center;
 }
 
 .queue_item:hover {
     background: var(--secondary);
 }
 
-.queue_item > div {
-    flex-grow: 1;
-}
-
-.queue_item > div > span:first-child {
-    display: flex;
-    align-items: center;
-}
-
-.queue_item > div > span:last-child {
-    display: flex;
-    justify-content: space-between;
-}
-
-.queue_item > div > span:first-child > span:first-child {
-    font-family: Bebas;
-    font-size: 1.5rem;
-    margin-right: .5rem;
-}
 
 .delTrack {
     font-size: 2rem;
@@ -164,42 +235,30 @@ input[type=number] {
 
 #connectionStatus {
     background: var(--dodong-primary);
+    width: 100%;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    text-align: center;
     padding: .5rem;
-    border-bottom-left-radius: 10px;
-}
-
-.fade {
-    transition: all 1s ease-in-out;
-}
-
-.radio-type1 {
-    display: flex;
-}
-
-.radio-type1 input {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: monospace;
+    /* For Development Purposes */
     display: none;
 }
 
-.radio-type1 input:checked + label {
-    background: var(--dodong-secondary);
-    color: var(--primary);
+.slideUp {
+    animation: slideUp 0.5s ease-in-out 0s 1 normal forwards;
 }
 
-.radio-type1 input:checked:first-of-type + label {
-    background: var(--dodong-primary);
-}
-
-.radio-type1 label {
-    /* font-size: 1.2rem; */
-    width: 40px !important;
-    height: 40px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-100%);
+    }
 }
 
 #queue-container.empty {
@@ -211,6 +270,79 @@ input[type=number] {
     color: grey;
 }
 
+#SLexpandBtn {
+    position: absolute;
+    font-size: 3rem;
+    font-family: bebas;
+    border: none;
+    background: transparent;
+    color: var(--tritiary);
+    font-weight: bold;
+    right: 0.5rem;
+    opacity: 0.8;
+}
+
+
+#SLcont {
+    position: absolute;
+    background: var(--secondary);
+    transform: translateX(100%);
+    transition: all .3s ease-in-out;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+}
+
+#SLcont.expanded {
+    transform: translate(-.5rem);
+}
+
+#SLctrlBtn {
+    display: flex;
+    gap: 10px;
+}
+
+#SLctrlBtn > button {
+    width: 100%;
+    padding: .5rem;
+    font-family: Poppins;
+    background: var(--secondary);
+    color: white;
+    border: none;
+    box-shadow: 0px 0px 7px 2px var(--primary);
+}
+
+#SLctrlBtn > button:active {
+    box-shadow: 0px 0px 10px 2px var(--primary) inset;
+}
+
+#SLexpandBtn.expanded {
+    opacity: 1;
+}
+
+#queue-header {
+    display: grid;
+    grid-template-columns: 1fr 8fr 6fr 5fr 4fr;
+    grid-gap: .25rem;
+    font-family: Poppins;
+    font-size: 1rem;
+    color: var(--tritiary);
+    border-bottom: thin solid var(--tritiary);
+}
+
+#import_cTitle {
+    font-family: Bebas;
+    letter-spacing: 1px;
+}
+
+#import_cThumbnail {
+    width: calc(150px - 2rem);
+    height: calc(150px - 2rem);
+}
+
 #navCont {
     display: flex;
     flex-direction: column;
@@ -219,13 +351,12 @@ input[type=number] {
 
 #navCont button {
     font-size: 1rem;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-transform: uppercase;
+    font-family: Roboto;
     background: transparent;
     color: var(--tritiary);
     border: none;
     padding: 0.5rem;
-    font-weight: lighter;
+    font-weight: bold;
 }
 
 #navCont button:disabled {
@@ -235,6 +366,28 @@ input[type=number] {
 #navCont button.selected {
     color: #cecece;
 }
+
+/* Delete this if queue.seek() gets faster */
+
+#seek-range {
+    border-radius: 50px;
+    height: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--tritiary);
+}
+
+#seek-range > div{
+    background: var(--dodong-primary);
+    height: 100%;
+    position: absolute;
+    width: 50px;
+    left: 0;
+    transition: all 1s linear;
+    border-right: thick solid white;
+}
+
+/* Delete this if queue.seek() gets faster */
 
 #login > fieldset {
     padding: 2rem;
@@ -282,7 +435,7 @@ input[type=number] {
     background-color: var(--secondary);
     color: white;
     box-shadow: inset 0px 0px 10px 5px var(--primary);
-    border: 2px solid var(--tritiary);
+    border: none;
     font-size: 1rem;
     font-family: monospace;
 }
@@ -298,14 +451,13 @@ input[type=number] {
     #dodongLogo + div {
         display: none;
     }
-    #mainCont {
-        flex-direction: column;
-    }
     #nav {
         display: flex;
-        justify-content: center;
         flex-direction: column;
-        height: 150px;
+        justify-content: center;
+    }
+    #main_upper {
+        flex-direction: column;
     }
     html,body {
         overflow-y: auto;

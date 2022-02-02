@@ -75,14 +75,11 @@ function recData(res){
     // Queue Update
     for(let i of res.tracks){
         const inner = `<div>
-            <span>
-                <span>${i.title}</span>
-                <span>${i.author}</span>
-            </span>
-            <span>
-                <span>${i.requestedBy.username}</span>
-                <span>${i.duration}</span>
-            </span>
+            <div data-value-id="order">${trackCount+1}</div>
+            <div data-value-id="title">${i.title}</div>
+            <div data-value-id="author">${i.author}</div>
+            <div data-value-id="requestor">${i.requestedBy.username}</div>
+            <div data-value-id="duration">${i.duration}</div>
         </div>`;
 
         const queueItem = document.createElement("div");
@@ -108,32 +105,23 @@ function recData(res){
     document.getElementById("import_cAuthor").innerHTML = res.current.author;
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
-    document.getElementById("seek-range").setAttribute("max", Math.floor(res.current.durationMS / 1000));
+    seekRange.dataset.max = Math.floor(res.current.durationMS / 1000);
     
     // Global Variables
     cSongDuration = res.current.durationMS;
     inVoiceChannel = res.inVoiceChannel;
 
     // Loop State Update
-    switch(res.repeatMode){
-        case 0:
-            document.getElementById("l_noRepeat").checked = true;
-            break;
-        case 1:
-            document.getElementById("l_trackRepeat").checked = true;
-            break;
-        case 2:
-            document.getElementById("l_queueRepeat").checked = true;
-            break;
-    }
 
     // Pause / Resume & Slider Interval
     if(res.playing){
-        stateToggler.inner = "||";
+        stateToggler.innerHTML = pauseSVG;
+        stateToggler.dataset.state = "play";
         stateToggler.classList.add("paused");
         startRangeAnimation(res.current.progress, res.current.durationMS);
     }else{
-        stateToggler.innerHTML = "▶";
+        stateToggler.innerHTML = playSVG;
+        stateToggler.dataset.state = "pause";
         stateToggler.classList.remove("paused");
         clearInterval(progressInterval);
     }
@@ -142,10 +130,11 @@ function recData(res){
 function displayError(err){
     switch(err.type){
         case "NO_GUILD":
-            changePage(0);
+            changePage("login");
             disableNav();
+            if(!socket.connected) return;
             removeGuildonLocal(err.guildID);
-            console.log(`GUILD_ID:${err.guildID} not found on discord bot`);
+            console.log(`GUILD_ID: ${err.guildID} not found on discord bot`);
             break;
     }
 }

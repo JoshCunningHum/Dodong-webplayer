@@ -18,12 +18,11 @@ function startRangeAnimation(progress, duration){
 
     progressInterval = setInterval((duration) => {
         const progCont = document.getElementById("import_cProgress");
-        const slider = document.getElementById("seek-range");
+        const slider = seekRange.children[0];
         let minProg = Math.floor(localProgress / 60);
         let secProg = localProgress - (minProg * 60);
 
-        slider.setAttribute("value", localProgress);
-        slider.value = localProgress;
+        slider.style.width = (localProgress / duration) * 100 + "%";
         progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
 
         if(localProgress >= duration - 2){ // Stop the animation 2 seconds before finish
@@ -38,31 +37,29 @@ function startRangeAnimation(progress, duration){
 function changeConnectStatus(status){
     const target = document.getElementById("connectionStatus");
 
-    if(status){
+    // Will only do an update if the state changed
+    if(status && target.innerHTML != "Connected"){
+        target.classList.remove("slideUp");
         target.innerHTML = "Connected";
         target.style.background = "var(--dodong-secondary)";
-    }else{
-        // Disconnected State
+        setTimeout( () => { target.classList.add("slideUp") }, 1000);
+    }else if(!status && target.innerHTML != "Not Connected"){
+        target.classList.remove("slideUp");
         target.innerHTML = "Not Connected";
         target.style.background = "var(--dodong-primary)";
-        clearInterval(progressInterval);
+        setTimeout( () => { target.classList.add("slideUp") }, 1000);
     }
 }
 
-function changePage(index){
-    const pages = Array.from(document.getElementById("pageCont").children);
-    pages.forEach((page, i) => {
-        if(i != index){
+function changePage(id){
+    const pages = Array.from(document.getElementById("MODAL").children);
+    pages.forEach((page) => {
+        if(page.id != id){
             page.classList.add("sr-only");
         }else{
             page.classList.remove("sr-only");
         }
     });
-
-    const buttons = Array.from(document.getElementById("navCont").querySelectorAll(":scope > button"));
-
-    buttons.forEach( (el, i) => { el.classList.remove("selected")});
-    buttons[index].classList.add("selected");
 }
 
 function discordPlayerControl(control_type, args = {}){
@@ -72,7 +69,7 @@ function discordPlayerControl(control_type, args = {}){
 }
 
 function disableNav(state = true){
-    $("#navCont > button").each( (i, el) => {
+    $(".navBtn").each( (i, el) => {
         $(el).attr("disabled", state);
     })
 }
@@ -124,4 +121,31 @@ async function askBotURL(){
         referrerPolicy: 'no-referrer'
     })
     discordBotUrl = await response.json();
+}
+
+async function getSearchResults(query){
+    let response = await fetch('/search', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify({ query: query})
+    });
+
+    return await response.json();
+};
+
+function setFixedHeights(){
+    const toBeFixed = Array.from(document.getElementsByClassName("fixedHeight"), el => [el, el.dataset.target]);
+    for(let el of toBeFixed){
+        let basedHeight;
+        if(el[1] == "$Parent$"){
+            basedHeight = el[0].parentElement.clientHeight;
+        }else{
+            basedHeight = document.querySelector(el[0]).clientHeight;
+        }
+        el[0].height = basedHeight;
+    }
 }

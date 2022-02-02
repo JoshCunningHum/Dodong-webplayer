@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,143 +13,220 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
+
 <body>
 
     <!-- MAIN -->
-   <div class="flex h-100" id="mainCont">
+    <div class="flex-column gap-1 h-100 overflow-hidden" id="mainCont">
 
-        <div id="nav"> <!-- Future multiple guild support in the future -->
-            <div id="dodongLogo" class="m-2">
+        <!-- UPPER PART -->
+        <div class="flex flex-grow overflow-hidden" id="main_upper">
+
+            <!-- MENU -->
+            <div id="nav" class="text-center">
+                <div id="dodongLogo" class="m-2">
+
+                </div>
+                <div class="center bebas">Webplayer</div>
+                <div>
+                    @ <small class="rainbow uppercase" id="import_guildName">GUILD SAMPLE</small>
+                </div>
+                <div id="navCont">
+                    <!-- Navigation Buttons -->
+                    <button class="navBtn" data-target="login">Server</button>
+                    <button class="navBtn" data-target="settings">Settings</button>
+                </div>
 
             </div>
-            <div class="center bebas">Webplayer</div>
-            <div id="navCont"> <!-- Navigation Buttons -->
-                <button class="selected">Login</button>
-                <button>Player</button>
-                <button>Settings</button>
-            </div>
-        </div>
 
-        <div class="p-2 flex-column w-100" id="pageCont">
+            <div class="w-100 flex-column" id="pageCont">
 
-            <!-- LOGIN -->
-            <div id="login" class="flex align-center justify-center">
-                <fieldset class="monospace flex-column justify-center">
-                    <legend class="uppercase text-center bebas">Guild Selection</legend>
+                <!--  S&H Button-->
+                <div style="min-height: 3rem;">
+                    <button id="SLexpandBtn">≡</button>
+                </div>
 
-                    <input type="number" class="monospace" id="login_guildInput">
-                    <div class="mt-1">
-                        <label>Enter Guild ID</label>
-                    </div>
-                    <br>
-                    <div class="strikeThrough">OR</div>
-                    <br>
-                    <div class="mb-1">
-                        <label>Select saved guilds</label>
-                    </div>
-                    <select disabled class="monospace">
-                        <option value="0">No Guild Saved</option>
-                    </select>
-                    <button class="mt-2 bebas" id="loginGuildBtn">Enter</button>
 
-                </fieldset>
-            </div>
+                <div class="relative px-2 flex-column flex-grow">
 
-            <!-- Player -->
-            <div id="player-container">
-                <!-- Guild Display -->
-                <div class="bebas"> Now Playing @ <span class="rainbow uppercase" id="import_guildName">GUILD SAMPLE</span> </div>
-    
-                <!-- Player -->
-    
-                <div class="bebas p-2 bSecondary mt-1 w-100">
-                    <!-- Title -->
-                    <div class="flex align-center gap-2 flex-wrap">
-                        <span class="font-bold font-larger" id="import_cTitle">
-                            A Stupidly long title of a song ugh whats the problem with the author
-                        </span>
-                        <span class="monospace font-smaller" id="import_cAuthor">author</span>
-                    </div>
-    
-                    <!-- Requestor -->
-                    <div class="monospace font-normal" id="import_cRequestor">
-                        nize
-                    </div>
-    
-                    <!-- Seeker -->
-                    <div class="flex monospace font-small align-center gap-2">
-                        <span id="import_cProgress" >0:00</span>
-                        <input type="range" id="seek-range" value="0" min="0" max="100" step="0.1">
-                        <span id="import_cDuration">4:20</span>
-                    </div>
-    
-                    <!-- Player Controls -->
-                    <div class="flex justify-center">
-                        <div class="flex space-between align-center" id="control-container">
-                            <button class="hidden"></button>
-                            <button id="playpauseButton" class="paused">||</button>
-                            <button id="nextButton" class="pb-1">»</button>
+                    <!-- Queue Header -->
+                    <div id="queue-header">
+                        <div class="text-center">
+                            #
+                        </div>
+                        <div>
+                            Title
+                        </div>
+                        <div>
+                            Author
+                        </div>
+                        <div>
+                            Requested by
+                        </div>
+                        <div>
+                            Duration
                         </div>
                     </div>
-                    
-                </div>
+
+                    <div class="flex-grow relative overflow-hidden">
+                        <!-- Queue Items (Container) -->
+                        <div id="queue-container" class="h-100 fixedHeight" data-target="$Parent$">
+
+                            <!-- Template -->
+                            <!-- <div class="queue_item">
+                                <div>1</div>
+                                <div>For the damaged coda</div>
+                                <div>Blond Redhead</div>
+                                <div>nize</div>
+                                <div>4:20</div>
+                            </div> -->
     
-                <!-- Loop -->
-                <div class="greyfont flex font-normal mt-1 uppercase space-between align-center" >
-                    <span>
-                        Up Next
-                    </span>
-                    <span class="flex align-center">
-                        Loop
-                        <span class="radio-type1 ml-2">
-                            <input type="radio" name="repeatState" id="l_noRepeat" checked>
-                            <label for="l_noRepeat">🞭</label>
-                            <input type="radio" name="repeatState" id="l_queueRepeat">
-                            <label for="l_queueRepeat">Q</label>
-                            <input type="radio" name="repeatState" id="l_trackRepeat">
-                            <label for="l_trackRepeat">T</label>
-                        </span>
-                    </span>
-                </div>
-        
-                <!-- Queue and Filters -->
-                <div class="flex flex-grow">
-    
-                    <div class="flex flex-grow flex-column">
-        
-                        <!-- Queue -->
-                        <div id="queue-container" class="flex-grow">
-                            
-        
                         </div>
+                    </div>
+
+
+
+                    <!-- SEARCH & LYRICS -->
+                    <div id="SLcont" class="flex-column">
+
                         <!-- Add Song Feature -->
                         <div id="add_song" class="mb-1 flex gap-1">
-                            <input type="text" placeholder="Add songs here">
+                            <input type="text" placeholder="Search">
                         </div>
-        
+                        
+                        <!-- Controls -->
+                        <div id="SLctrlBtn">
+                            <button>Search</button>
+                            <button>Lyrics</button>
+                        </div>
+
+                        <!-- Results -->
+                        <div class="flex-grow overflow-hidden pt-1">
+                            <div id="SLResults" class="h-100 overflow-auto fixedHeight" data-target="$Parent$">
+                                <!-- Yo nize, this is where the results of the youtube and lyrics... be crazy -->
+                            </div>
+                        </div>
+
+
                     </div>
 
-                    <!-- Filters -->
-                    <div>
+                </div>
 
+
+            </div>
+        </div>
+
+
+
+        <!-- LOWER PART / Player -->
+
+        <div class="p-2 bSecondary mt-1 w-100" id="player-container">
+
+            <!-- Title -->
+            <div class="flex" style="font-size: 1rem;">
+                <img src="./Assets/pictures/dlogoonly.svg" id="import_cThumbnail">
+                <div class="flex-grow pl-2">
+                    <div id="import_cTitle" class="font-larger">
+                        A Stupidly long title of a song ugh whats the problem with the author
                     </div>
-                    
+                    <div class="roboto font-smaller">
+                        <span class="" id="import_cAuthor">
+                            Author
+                        </span>-<span class="" id="import_cRequestor"> nize </span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Settings -->
-            <div class="p-3">
-                    Nothing here for now, but there will be in the future!
+            <!-- Controls -->
+            <div class="relative">
+                <!-- Player Controls -->
+                <div class="flex justify-center">
+                    <div class="flex space-between align-center" id="control-container">
+                        <button class="hidden"></button>
+                        <button id="playpauseButton" class="paused">
+                            <svg class="fAwesome" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M272 63.1l-32 0c-26.51 0-48 21.49-48 47.1v288c0 26.51 21.49 48 48 48L272 448c26.51 0 48-21.49 48-48v-288C320 85.49 298.5 63.1 272 63.1zM80 63.1l-32 0c-26.51 0-48 21.49-48 48v288C0 426.5 21.49 448 48 448l32 0c26.51 0 48-21.49 48-48v-288C128 85.49 106.5 63.1 80 63.1z"></path></svg>
+                        </button>
+                        <button id="nextButton" class="pb-1">
+                            <svg class="fAwesome" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M52.51 440.6l171.5-142.9V214.3L52.51 71.41C31.88 54.28 0 68.66 0 96.03v319.9C0 443.3 31.88 457.7 52.51 440.6zM308.5 440.6l192-159.1c15.25-12.87 15.25-36.37 0-49.24l-192-159.1c-20.63-17.12-52.51-2.749-52.51 24.62v319.9C256 443.3 287.9 457.7 308.5 440.6z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Seeker -->
+                <div class="flex monospace font-small align-center gap-2 absolute w-100" style="bottom: 0;">
+                    <span id="import_cProgress">0:00</span>
+
+                    <div data-max="100" class="w-100" id="seek-range">
+                        <div></div>
+                    </div>
+
+                    <!-- If queue.seek() gets faster, this input will be used -->
+                    <!-- <input type="range" id="seek-range" value="0" min="0" max="100" step="0.1"> -->
+
+                    <span id="import_cDuration">4:20</span>
+                </div>
+                
+            </div>
+
+            <!-- Extra Features -->
+            <div id="player-extra" class="align-center">
+                <!-- Font Awesome just don't work so ye -->
+                <button id="shuffleBtn">
+                    <svg class="fAwesome" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="currentColor" d="M424.1 287c-15.13-15.12-40.1-4.426-40.1 16.97V352H336L153.6 108.8C147.6 100.8 138.1 96 128 96H32C14.31 96 0 110.3 0 128s14.31 32 32 32h80l182.4 243.2C300.4 411.3 309.9 416 320 416h63.97v47.94c0 21.39 25.86 32.12 40.99 17l79.1-79.98c9.387-9.387 9.387-24.59 0-33.97L424.1 287zM336 160h47.97v48.03c0 21.39 25.87 32.09 40.1 16.97l79.1-79.98c9.387-9.391 9.385-24.59-.0013-33.97l-79.1-79.98c-15.13-15.12-40.99-4.391-40.99 17V96H320c-10.06 0-19.56 4.75-25.59 12.81L254 162.7L293.1 216L336 160zM112 352H32c-17.69 0-32 14.31-32 32s14.31 32 32 32h96c10.06 0 19.56-4.75 25.59-12.81l40.4-53.87L154 296L112 352z"></path>
+                    </svg>
+                </button>
+                <button id="repeatBtn" data-state="no-repeat"> 
+                    <svg class="fAwesome" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M341.333333 853.333333v82.432a21.333333 21.333333 0 0 1-34.986666 16.426667l-175.786667-146.474667A21.333333 21.333333 0 0 1 144.298667 768H768a85.333333 85.333333 0 0 0 85.333333-85.333333V341.333333h85.333334v341.333334a170.666667 170.666667 0 0 1-170.666667 170.666666H341.333333z m341.333334-682.666666V88.234667a21.333333 21.333333 0 0 1 34.986666-16.426667l175.786667 146.474667a21.333333 21.333333 0 0 1-13.696 37.717333H256a85.333333 85.333333 0 0 0-85.333333 85.333333v341.333334H85.333333V341.333333a170.666667 170.666667 0 0 1 170.666667-170.666666h426.666667z"  /></svg>
+                </button>
+                <div id="volume-slider" class="border relative">
+                    <div class="absolute"></div>
+                </div>
             </div>
 
 
         </div>
-   </div>
+    </div>
 
-   <!-- Connection Status -->
-   <div id="connectionStatus" class="fade">
+    <!-- Modals -->
+    <div id="MODAL">
+
+        <!-- LOGIN -->
+        <div id="login" class="flex align-center justify-center entirePage">
+            <fieldset class="monospace flex-column justify-center">
+                <legend class="uppercase text-center bebas">Guild Selection</legend>
+
+                <input type="number" class="monospace" id="login_guildInput">
+                <div class="mt-1">
+                    <label>Enter Guild ID</label>
+                </div>
+                <br>
+                <div class="strikeThrough">OR</div>
+                <br>
+                <div class="mb-1">
+                    <label>Select saved guilds</label>
+                </div>
+                <select disabled class="monospace">
+                    <option value="0">No Guild Saved</option>
+                </select>
+                <button class="mt-2 bebas" id="loginGuildBtn">Enter</button>
+
+            </fieldset>
+        </div>
+
+        <!-- Settings -->
+        <div id="settings" class="p-3 entirePage">
+            <button class="backArrows navBtn">⇽</button>
+            <br>
+            Nothing here for now, but there will be in the future!
+        </div>
+
+    </div>
+
+    <!-- Connection Status -->
+    <div id="connectionStatus">
         Not Connected
-   </div>
+    </div>
 
 </body>
 <script src="Assets/js/utilities.js"></script>
@@ -156,4 +234,5 @@
 <script src="Assets/js/domListeners.js"></script>
 <script src="Assets/js/listeners.js"></script>
 <script src="Assets/js/client.js"></script>
+
 </html>

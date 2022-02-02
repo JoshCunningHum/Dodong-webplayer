@@ -1,18 +1,19 @@
-
 // DOM Event Listeners
 
 // Play / Pause Button
-stateToggler.addEventListener("click", e => {
-    if(e.target.innerHTML == "||"){
-        e.target.innerHTML = "▶";
-        e.target.classList.remove("paused");
+stateToggler.addEventListener("click", function() {
+    if (this.dataset.state == "play") {
+        this.innerHTML = playSVG;
+        this.classList.remove("paused");
+        this.dataset.state = "pause";
         discordPlayerControl("pause");
         clearInterval(progressInterval);
-    }else{
-        e.target.innerHTML = "||";
-        e.target.classList.add("paused");
+    } else {
+        this.dataset.state = "play";
+        this.innerHTML = pauseSVG;
+        this.classList.add("paused");
         discordPlayerControl("resume");
-        startRangeAnimation(localProgress*1000, cSongDuration);
+        startRangeAnimation(localProgress * 1000, cSongDuration);
     }
 })
 
@@ -30,52 +31,26 @@ nextButton.addEventListener("click", e => {
 //     })
 // })
 
-// Loop State Change
-document.querySelectorAll('input[name="repeatState"]').forEach(el => {
-    el.addEventListener('click', function(){
-        let repeatType;
-
-        switch(this.id){
-            case "l_noRepeat":
-                repeatType = 0;
-                break;
-            case "l_queueRepeat":
-                repeatType = 2;
-                break;
-            case "l_trackRepeat":
-                repeatType = 1;
-                break;
-        }
-
-        discordPlayerControl("loop", {
-            repeatType: repeatType
-        })
-    });
-})
 
 // Tab Change
-Array.from(document.getElementById("navCont").children).forEach(el => {
-    el.addEventListener("click", function() {
-        if(this.classList.contains('selected')){
+Array.from(document.querySelectorAll(".navBtn")).forEach(el => {
+    el.addEventListener("click", function () {
+        if (this.classList.contains('selected')) {
             return;
         }
-
-        const siblings = Array.from(this.parentElement.querySelectorAll(":scope > button"));
-        const thisIndex = siblings.indexOf(this);
-
-        changePage(thisIndex);
+        changePage(this.dataset.target);
     });
 })
 
- // Play / Add Song Feature
- document.querySelector("#add_song > input").addEventListener("change", function(){
+// Play / Add Song Feature
+document.querySelector("#add_song > input").addEventListener("change", function () {
     let query = this.value;
-    if(!query || query.length == 0){
+    if (!query || query.length == 0) {
         alert("Please Type Something");
         return;
     }
 
-    if(!inVoiceChannel){
+    if (!inVoiceChannel) {
         alert("The bot is not in a voice channel");
         return;
     }
@@ -88,34 +63,101 @@ Array.from(document.getElementById("navCont").children).forEach(el => {
 
     this.value = "";
 
- });
+});
 
- // Removes songs
- function deleteTrack(btn){
+// Removes songs
+function deleteTrack(btn) {
     let trackIndex = Array.from(document.getElementById("queue-container").children).indexOf(btn.parentElement);
 
     discordPlayerControl("remove", {
         trackIndex: trackIndex
     })
- };
- 
- // Login Button
- document.getElementById("loginGuildBtn").addEventListener("click", function(){
-     const guildInput = document.getElementById("login_guildInput").value;
-     const guildSelect = this.parentElement.querySelector("select.monospace").value;
+};
+
+// Login Button
+document.getElementById("loginGuildBtn").addEventListener("click", function () {
+    const guildInput = document.getElementById("login_guildInput").value;
+    const guildSelect = this.parentElement.querySelector("select.monospace").value;
+
+    if(guildSelect == 0 && guildInput.length == 0){
+        alert("Enter a GUILD_ID or Choose from the saved GUILD IDs if available");
+        return;
+    }
 
     const currentURL = window.location.href.split("?")[0];
 
-     if(guildSelect != 0){ // if guild selected is not 0 then choose guildSelect
-        window.location.replace(`${currentURL}?guildID=${guildSelect}`);
-     }else{ // choose the inputted one instead
-        window.location.replace(`${currentURL}?guildID=${guildInput}`);
-     }
- })
+    
 
- // Guild Input Automatic Login
- document.getElementById("login_guildInput").addEventListener("change", function(){
+    if (guildSelect != 0) { // if guild selected is not 0 then choose guildSelect
+        window.location.replace(`${currentURL}?guildID=${guildSelect}`);
+    } else { // choose the inputted one instead
+        window.location.replace(`${currentURL}?guildID=${guildInput}`);
+    }
+})
+
+// Guild Input Automatic Login
+document.getElementById("login_guildInput").addEventListener("change", function () {
     const guildSelect = this.parentElement.querySelector("select.monospace");
     selectItem(guildSelect, 0);
     document.getElementById("loginGuildBtn").click();
- });
+});
+
+// Search and Lyrics Expand
+document.getElementById("SLexpandBtn").addEventListener("click", function() {
+    const SLCont = document.getElementById("SLcont");
+    if(SLCont.classList.contains("expanded")){
+        SLCont.classList.remove("expanded");
+        this.classList.remove("expanded");
+    }else{
+        SLCont.classList.add("expanded");
+        this.classList.add("expanded");
+    }
+})
+
+// When Browser Resizes
+$(window).resize(function(){
+
+    // All Fixed Heights
+    setFixedHeights();
+});
+
+// Repeat Button
+document.getElementById("repeatBtn").addEventListener("click", function(){
+    switch(this.dataset.state){
+        case "no-repeat":
+            console.log("yep");
+            this.dataset.state = "queue-repeat";
+            this.classList.add("active");
+            break;
+        case "queue-repeat":
+            this.dataset.state = "track-repeat";
+            this.classList.add("active");
+            this.innerHTML = repTSVG;
+            break;
+        case "track-repeat":
+            this.dataset.state = "no-repeat";
+            this.classList.remove("active");
+            this.innerHTML = repQSVG;
+            break;
+    }
+});
+
+// Event Chain for the Volume Slider
+document.getElementById("volume-slider").addEventListener("mousedown", function(){
+    this.dataset.activeDrag = true;
+})
+document.getElementById("volume-slider").addEventListener("mousemove", function(e){
+    if(this.dataset.activeDrag == "false") return;
+    const position = e.clientX - this.getBoundingClientRect().left;
+    const width = this.clientWidth;
+    const hider = this.children[0];
+    hider.style.width = `${100 - (100 * position/width)}%`;
+})
+document.getElementById("volume-slider").addEventListener("mouseup", function(){
+    this.dataset.activeDrag = false;
+    /* Do the update */
+})
+document.getElementById("volume-slider").addEventListener("mouseleave", function(){
+    this.dataset.activeDrag = false;
+    /* Do the update */
+})

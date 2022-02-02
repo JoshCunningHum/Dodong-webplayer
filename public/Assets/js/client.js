@@ -13,7 +13,7 @@ function _init(){
         secure: true
     });
 
-    changePage(0);
+    changePage("login");
     disableNav();
 
     if(!guildID){
@@ -21,7 +21,7 @@ function _init(){
             type: "NO_GUILD"
         })
     }else{
-        changePage(1);
+        changePage();
         disableNav(false);
     }
 
@@ -74,4 +74,7 @@ function _init(){
             console.log("Reordered");
         }
     })
+
+    // Front End Adjustments
+    setFixedHeights();
 }
