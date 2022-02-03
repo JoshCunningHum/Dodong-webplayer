@@ -143,21 +143,41 @@ document.getElementById("repeatBtn").addEventListener("click", function(){
 });
 
 // Event Chain for the Volume Slider
-document.getElementById("volume-slider").addEventListener("mousedown", function(){
+document.getElementById("volume-slider").addEventListener("mousedown", function(e){
     this.dataset.activeDrag = true;
+    this.dataset.downCoord = e.clientX;
+    this.classList.add("isChanging");
+    _volSlide(this, e);
 })
-document.getElementById("volume-slider").addEventListener("mousemove", function(e){
-    if(this.dataset.activeDrag == "false") return;
-    const position = e.clientX - this.getBoundingClientRect().left;
-    const width = this.clientWidth;
-    const hider = this.children[0];
-    hider.style.width = `${100 - (100 * position/width)}%`;
+
+document.getElementById("player-container").addEventListener("mousemove", function(e){
+    const volumeSlider = document.getElementById("volume-slider");
+    if(volumeSlider.dataset.activeDrag == "true") _volSlide(volumeSlider, e);
 })
-document.getElementById("volume-slider").addEventListener("mouseup", function(){
-    this.dataset.activeDrag = false;
-    /* Do the update */
-})
-document.getElementById("volume-slider").addEventListener("mouseleave", function(){
-    this.dataset.activeDrag = false;
-    /* Do the update */
+
+function _volSlide(el, e){
+    const coordDiff = e.clientX - parseFloat(el.dataset.downCoord);
+    const remPart = parseFloat(el.dataset.downCoord) - el.getBoundingClientRect().left;
+    let CRD = (remPart + coordDiff) / el.getBoundingClientRect().width;
+
+    if(CRD < 0){
+        CRD = 0;
+    }else if(CRD > 1){
+        CRD = 1;
+    }
+
+    const hider = el.children[0];
+
+    hider.style.width = `${(100 * (1 - CRD)).toFixed()}%`;
+    el.dataset.tooltip = `${(100 * CRD).toFixed()}%`;
+}
+
+document.getElementById("player-container").addEventListener("mouseup", function(){
+
+    // Volume Slider
+    const volumeSlider = document.getElementById("volume-slider");
+    volumeSlider.classList.remove("isChanging");
+    volumeSlider.dataset.activeDrag = "false";
+
+    // Do the Volume Update
 })

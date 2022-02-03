@@ -7,6 +7,18 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+[data-tooltip]:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    transform: translateY(calc(-100% - .25rem));
+}
+
+.isChanging[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    transform: translateY(calc(-100% - .25rem));
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
@@ -174,6 +186,7 @@ input[type=number] {
 }
 
 #volume-slider {
+    cursor: pointer;
     height: 20px;
     background: rgb(19,170,61);
     background: linear-gradient(90deg, rgba(19,170,61,1) 0%, rgba(228,255,0,1) 47%, rgba(255,40,40,1) 90%);
