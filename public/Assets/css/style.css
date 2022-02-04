@@ -453,6 +453,16 @@ input[type=number] {
     font-family: monospace;
 }
 
+/* i'm crap at styling stuff so ill leave these to u hehe */
+.searchResult {
+    display: block;
+}
+/*
+.addResult {
+    
+}
+*/
+
 @media (orientation: portrait) {
     #dodongLogo {
         background-image: url(../pictures/dodong.svg);
