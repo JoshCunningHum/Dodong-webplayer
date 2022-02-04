@@ -123,8 +123,8 @@ async function askBotURL(){
     discordBotUrl = await response.json();
 }
 
-async function getSearchResults(query){
-    let response = await fetch('/search', {
+async function getSearchResults(query, lyrics = false){
+    let response = await fetch(lyrics ? `/lyrics` : `/search`, {
         method: 'POST',
         cache: 'no-cache',
         headers: {
