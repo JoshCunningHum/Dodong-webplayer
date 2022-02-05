@@ -41,7 +41,7 @@ Array.from(document.querySelectorAll(".navBtn")).forEach(el => {
         changePage(this.dataset.target);
     });
 })
-
+/*
 // Play / Add Song Feature
 document.querySelector("#add_song > input").addEventListener("change", function () {
     let query = this.value;
@@ -63,7 +63,7 @@ document.querySelector("#add_song > input").addEventListener("change", function 
 
     this.value = "";
 
-});
+});*/
 
 // Removes songs
 function deleteTrack(btn) {
@@ -112,7 +112,54 @@ document.getElementById("SLexpandBtn").addEventListener("click", function() {
         SLCont.classList.add("expanded");
         this.classList.add("expanded");
     }
-})
+});
+
+// Search Button
+document.getElementById("searchButton").addEventListener("click", async function() {
+    const query = document.getElementById("searchQuery").value;
+    if(!query || query.length == 0) return;
+    if (!inVoiceChannel) {
+        alert("The bot is not in a voice channel");
+        return;
+    }
+
+    /* todo:
+        if query is already a youtube/spotify/soundcloud URL,
+        we should skip this and just emit the play event for socket
+    */
+    const results = await getSearchResults(query);
+    let resultList = "";
+    for(let i = 0; i < results.length; i++) {
+        resultList = resultList.concat(
+            `<div class="searchResult">
+                <a href="https://youtu.be/${results[i].id}">${results[i].title}</a>
+                <button class="addResult" value="${results[i].id}">+</button>
+             </div>` // results[i].thumbnail.url for the thumbnail image, in case u wanna show it too
+            );
+    }
+    // set results limit to 10 instead of 5?
+    // cos 5 seems too low for the large SLResults div
+    document.getElementById("SLResults").innerHTML = resultList;
+    document.getElementById("searchQuery").value = "";
+
+    document.querySelectorAll(".addResult").forEach(b => b.addEventListener('click', async function () {
+        //console.log(`addResult clicked: https://youtu.be/${b.value}`); // for debugging
+        socket.emit("play", {
+            guild: guildID,
+            query: `https://youtu.be/${b.value}`,
+            voiceChannelID: inVoiceChannel
+        });
+    }));
+});
+
+// Lyrics Button
+document.getElementById("lyricsButton").addEventListener("click", async function() {
+    const query = document.getElementById("searchQuery").value;
+    if(!query || query.length == 0) return;
+    const results = await getSearchResults(query, true);
+    document.getElementById("SLResults").innerText = results;
+    document.getElementById("searchQuery").value = "";
+});
 
 // When Browser Resizes
 $(window).resize(function(){
