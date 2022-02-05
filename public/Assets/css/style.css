@@ -203,11 +203,6 @@ input[type=number] {
     padding-left: .3rem;
 }
 
-#playpauseButton.paused {
-    padding-bottom: .5rem;
-    padding-left: 0rem;
-}
-
 #queue-container {
     overflow-y: auto;
 }
@@ -221,6 +216,7 @@ input[type=number] {
     display: grid;
     grid-template-columns: 1fr 8fr 6fr 5fr 4fr;
     padding: .7rem 0;
+    position: relative;
 }
 
 .queue_item > div:first-of-type {
@@ -233,17 +229,23 @@ input[type=number] {
 
 
 .delTrack {
-    font-size: 2rem;
+    position: absolute;
+    /* font-size: 2rem; */
     padding: 0rem 0.5rem;
     color: var(--dodong-primary);
     font-weight: bold;
     background: transparent;
     border: none;
     display: none;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 100%;
 }
 
 .queue_item:hover > .delTrack {
-    display: initial;
+    display: flex;
 }
 
 #connectionStatus {
@@ -258,11 +260,12 @@ input[type=number] {
     letter-spacing: 2px;
     font-family: monospace;
     /* For Development Purposes */
-    display: none;
+    /* display: none; */
 }
 
 .slideUp {
-    animation: slideUp 0.5s ease-in-out 0s 1 normal forwards;
+    transition: all 0.5s ease-in-out;
+    transform: translateY(-100%);
 }
 
 @keyframes slideUp {

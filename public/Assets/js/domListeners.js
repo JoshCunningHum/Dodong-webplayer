@@ -124,25 +124,25 @@ $(window).resize(function(){
 // Repeat Button
 document.getElementById("repeatBtn").addEventListener("click", function(){
     switch(this.dataset.state){
-        case "no-repeat":
-            console.log("yep");
-            this.dataset.state = "queue-repeat";
+        case "0":
+            this.dataset.state = "2";
             this.classList.add("active");
             break;
-        case "queue-repeat":
-            this.dataset.state = "track-repeat";
+        case "2":
+            this.dataset.state = "1";
             this.classList.add("active");
             this.innerHTML = repTSVG;
             break;
-        case "track-repeat":
-            this.dataset.state = "no-repeat";
+        case "1":
+            this.dataset.state = "0";
             this.classList.remove("active");
             this.innerHTML = repQSVG;
             break;
     }
+    discordPlayerControl("loop", { repeatType: parseInt(this.dataset.state)});
 });
 
-// Event Chain for the Volume Slider
+// --- Event Chain for the Volume Slider ---
 document.getElementById("volume-slider").addEventListener("mousedown", function(e){
     this.dataset.activeDrag = true;
     this.dataset.downCoord = e.clientX;
@@ -156,9 +156,16 @@ document.getElementById("player-container").addEventListener("mousemove", functi
 })
 
 function _volSlide(el, e){
-    const coordDiff = e.clientX - parseFloat(el.dataset.downCoord);
-    const remPart = parseFloat(el.dataset.downCoord) - el.getBoundingClientRect().left;
-    let CRD = (remPart + coordDiff) / el.getBoundingClientRect().width;
+    let CRD;
+
+    if(typeof e == "number"){
+        CRD = e / 100;
+    }else{
+        const coordDiff = e.clientX - parseFloat(el.dataset.downCoord);
+        const remPart = parseFloat(el.dataset.downCoord) - el.getBoundingClientRect().left;
+
+        CRD = (remPart + coordDiff) / el.getBoundingClientRect().width;
+    }
 
     if(CRD < 0){
         CRD = 0;
@@ -169,7 +176,8 @@ function _volSlide(el, e){
     const hider = el.children[0];
 
     hider.style.width = `${(100 * (1 - CRD)).toFixed()}%`;
-    el.dataset.tooltip = `${(100 * CRD).toFixed()}%`;
+    el.dataset.vol = parseInt(100 * CRD);
+    el.dataset.tooltip = `${el.dataset.vol}%`;
 }
 
 document.getElementById("player-container").addEventListener("mouseup", function(){
@@ -179,5 +187,33 @@ document.getElementById("player-container").addEventListener("mouseup", function
     volumeSlider.classList.remove("isChanging");
     volumeSlider.dataset.activeDrag = "false";
 
-    // Do the Volume Update
+    discordPlayerControl("volume", {volume:parseInt(volumeSlider.dataset.tooltip)});
+})
+// --- Event Chain for the Volume Slider ---
+
+// Move Feature
+function _moveUpdate(){
+    const queueCont = document.getElementById("queue-container");
+    const qChildren = queueCont.querySelectorAll(":scope > div[data-index]");
+    const finalOrder = Array.from(qChildren).map(e => parseInt(e.dataset.index));
+    let iniOrder = [];
+    
+    for(let i = 0; i < qChildren.length; i++) iniOrder.push(i);
+
+    const argPos = getNewPositions(iniOrder, finalOrder);
+    
+    Array.from(qChildren).forEach( (e, i) => { 
+        e.dataset.index = iniOrder[i];
+        e.querySelector(`:scope [data-value-id="order"]`).innerText = i + 1;
+    });
+
+    discordPlayerControl("move", {
+        initialPos: argPos[0],
+        finalPos: argPos[1]
+    });
+}
+
+// Shuffle Btn
+document.getElementById("shuffleBtn").addEventListener("click", function(){
+    discordPlayerControl("shuffle");
 })

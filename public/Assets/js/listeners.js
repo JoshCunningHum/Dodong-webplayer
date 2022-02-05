@@ -2,7 +2,7 @@ function requestData(){
     console.clear();
 
     // request for Data
-    socket.emit("getData", guildID);
+    socket.emit("getData", {guild: guildID});
 }
 
 function recData(res){
@@ -74,22 +74,22 @@ function recData(res){
 
     // Queue Update
     for(let i of res.tracks){
-        const inner = `<div>
+        const inner = `
             <div data-value-id="order">${trackCount+1}</div>
             <div data-value-id="title">${i.title}</div>
             <div data-value-id="author">${i.author}</div>
             <div data-value-id="requestor">${i.requestedBy.username}</div>
             <div data-value-id="duration">${i.duration}</div>
-        </div>`;
+        `;
 
         const queueItem = document.createElement("div");
         queueItem.classList.add("queue_item");
         queueItem.innerHTML = inner;
-        queueCont.dataset.index = trackCount;
+        queueItem.dataset.index = trackCount;
 
         const delBtn = document.createElement("btn");
-        delBtn.innerHTML = "🗑";
-        delBtn.classList.add("delTrack");
+        delBtn.innerHTML = "❌";
+        delBtn.classList.add("delTrack","flex","justify-center","align-center");
         delBtn.addEventListener("click", function(){
             deleteTrack(this);
         });
@@ -99,6 +99,12 @@ function recData(res){
 
         trackCount++;
     }
+
+    // Makes the queue container sortable
+    $("#queue-container").sortable({
+        axis: "y",
+        update: _moveUpdate
+    })
 
     // Player Details Update
     document.getElementById("import_cTitle").innerHTML = res.current.title;
@@ -112,6 +118,28 @@ function recData(res){
     inVoiceChannel = res.inVoiceChannel;
 
     // Loop State Update
+    const repeatButton = document.getElementById("repeatBtn");
+    switch(res.repeatMode){
+        case 2:
+            repeatButton.dataset.state = "2";
+            repeatButton.classList.add("active");
+            break;
+        case 0:
+            repeatButton.dataset.state = "0";
+            repeatButton.classList.remove("active");
+            repeatButton.innerHTML = repQSVG;
+            break;
+        default:
+        case 1:
+            repeatButton.dataset.state = "1";
+            repeatButton.classList.add("active");
+            repeatButton.innerHTML = repTSVG;
+            break;
+    }
+
+    // Volume
+    const volumeSlider = document.getElementById("volume-slider");
+    _volSlide(volumeSlider, res.volume);
 
     // Pause / Resume & Slider Interval
     if(res.playing){

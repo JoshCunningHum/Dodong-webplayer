@@ -1,5 +1,3 @@
-var socket;
-
 window.onload = () => {
     askBotURL().then( () => {
         _init();
@@ -33,7 +31,7 @@ function _init(){
         changeConnectStatus(socket.connected);
 
         // Force this socket to enter the guild room
-        socket.emit('joinGuild', guildID);
+        socket.emit('joinGuild', {guild: guildID});
 
         // Waits for 0.25 second - fix for the webplayer being unreponsive on first visit
         setTimeout(() => {
@@ -66,14 +64,6 @@ function _init(){
     setInterval( () => {
         changeConnectStatus(socket.connected);
     }, 1000);
-
-    // Makes the queue container sortable
-    $("#queue-container").sortable({
-        axis: "y",
-        update: function(event, ui) {
-            console.log("Reordered");
-        }
-    })
 
     // Front End Adjustments
     setFixedHeights();

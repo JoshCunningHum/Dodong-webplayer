@@ -47,7 +47,6 @@ function changeConnectStatus(status){
         target.classList.remove("slideUp");
         target.innerHTML = "Not Connected";
         target.style.background = "var(--dodong-primary)";
-        setTimeout( () => { target.classList.add("slideUp") }, 1000);
     }
 }
 
@@ -148,4 +147,34 @@ function setFixedHeights(){
         }
         el[0].height = basedHeight;
     }
+}
+
+/*
+    Before: [0, 1, 2, 3, 4, 5] 
+    After: [0, 4, 1, 2, 3, 5] 
+    Returns: [4, 1] - The value at index 4 is moved to index 1
+*/
+
+function getNewPositions(arrBefore, arrAfter){
+    if(arrBefore.length != arrAfter.length) return;
+    
+    let iniPos, finalPos = arrBefore.length - 1, valB, valF;
+    for(let i = 0; i < arrBefore.length; i++){
+        [valB, valF] = [arrBefore[i], arrAfter[i]];
+
+        if(iniPos == undefined){
+            if(valB != valF) iniPos = i;
+        }else{ 
+            if(valB == valF){
+                finalPos = i-1;
+                break;
+            }
+        }
+    }
+    
+    if(iniPos == undefined) return null;
+    if(arrBefore[iniPos] != arrAfter[finalPos]) [iniPos, finalPos] = [finalPos, iniPos];
+
+
+    return [iniPos, finalPos];
 }
