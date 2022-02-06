@@ -97,7 +97,7 @@ function updateGuildSelect(){
 
 function removeGuildonLocal(id){
     let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-    if(savedGuilds != undefined || savedGuilds != null){
+    if(savedGuilds != undefined && savedGuilds != null){
         for(let i in savedGuilds){
             if(savedGuilds[i].id == id){
                 console.log(`${i} is deleted`);
@@ -178,3 +178,14 @@ function getNewPositions(arrBefore, arrAfter){
 
     return [iniPos, finalPos];
 }
+
+// Straight from stackoverflow
+function isValidURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }

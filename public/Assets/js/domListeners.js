@@ -41,29 +41,6 @@ Array.from(document.querySelectorAll(".navBtn")).forEach(el => {
         changePage(this.dataset.target);
     });
 })
-/*
-// Play / Add Song Feature
-document.querySelector("#add_song > input").addEventListener("change", function () {
-    let query = this.value;
-    if (!query || query.length == 0) {
-        alert("Please Type Something");
-        return;
-    }
-
-    if (!inVoiceChannel) {
-        alert("The bot is not in a voice channel");
-        return;
-    }
-
-    socket.emit("play", {
-        guild: guildID,
-        query: query,
-        voiceChannelID: inVoiceChannel
-    });
-
-    this.value = "";
-
-});*/
 
 // Removes songs
 function deleteTrack(btn) {
@@ -127,6 +104,17 @@ document.getElementById("searchButton").addEventListener("click", async function
         if query is already a youtube/spotify/soundcloud URL,
         we should skip this and just emit the play event for socket
     */
+
+    // If query is a valid URL
+   if(isValidURL(query)){
+        socket.emit("play", {
+            guild: guildID,
+            query: query,
+            voiceChannelID: inVoiceChannel
+        })
+        return;
+   }
+
     const results = await getSearchResults(query);
     let resultList = "";
     for(let i = 0; i < results.length; i++) {
@@ -228,8 +216,6 @@ function _volSlide(el, e){
 }
 
 document.getElementById("player-container").addEventListener("mouseup", function(){
-
-    // Volume Slider
     const volumeSlider = document.getElementById("volume-slider");
     volumeSlider.classList.remove("isChanging");
     volumeSlider.dataset.activeDrag = "false";
