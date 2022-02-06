@@ -1,10 +1,10 @@
 window.onload = () => {
-    askBotURL().then( () => {
+    askBotURL().then(() => {
         _init();
-    } );
+    });
 }
 
-function _init(){
+function _init() {
 
     socket = io.connect(discordBotUrl, {
         reconnection: false,
@@ -14,11 +14,11 @@ function _init(){
     changePage("login");
     disableNav();
 
-    if(!guildID){
+    if (!guildID) {
         displayError({
             type: "NO_GUILD"
         })
-    }else{
+    } else {
         changePage();
         disableNav(false);
     }
@@ -31,7 +31,9 @@ function _init(){
         changeConnectStatus(socket.connected);
 
         // Force this socket to enter the guild room
-        socket.emit('joinGuild', {guild: guildID});
+        socket.emit('joinGuild', {
+            guild: guildID
+        });
 
         // Waits for 0.25 second - fix for the webplayer being unreponsive on first visit
         setTimeout(() => {
@@ -59,9 +61,9 @@ function _init(){
     // Error
     socket.on('error', async (err) => {
         displayError(err);
-    } )
+    })
 
-    setInterval( () => {
+    setInterval(() => {
         changeConnectStatus(socket.connected);
     }, 1000);
 

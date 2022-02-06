@@ -3,8 +3,8 @@
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 [data-tooltip]:hover::before {
@@ -21,7 +21,7 @@ input::-webkit-inner-spin-button {
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 /* Disables the number increment button on input[type=number]*/
@@ -42,7 +42,10 @@ input[type=number] {
     position: absolute !important;
     width: 100vw !important;
     height: 100vh !important;
-    top: 0; bottom: 0; left: 0; right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .overflow-hidden {
@@ -74,7 +77,7 @@ input[type=number] {
     margin-bottom: 0;
 }
 
-#dodongLogo + div {
+#dodongLogo+div {
     font-size: 2.2rem;
     text-align: center;
     color: var(--dodong-secondary);
@@ -118,7 +121,7 @@ input[type=number] {
     position: relative;
 }
 
-#MODAL > div {
+#MODAL>div {
     background: var(--primary);
 }
 
@@ -140,7 +143,7 @@ input[type=number] {
     gap: 3rem;
 }
 
-#player-extra > button{
+#player-extra>button {
     width: 35px;
     height: 35px;
     background: transparent;
@@ -148,7 +151,7 @@ input[type=number] {
     color: white;
 }
 
-#player-extra > button:active > :is(svg, img) {
+#player-extra>button:active> :is(svg, img) {
     width: 30px;
     height: 30px;
 }
@@ -180,7 +183,7 @@ input[type=number] {
     height: 40px;
 }
 
-#control-container > button:last-of-type:active :is(svg, img) {
+#control-container>button:last-of-type:active :is(svg, img) {
     width: 95%;
     height: 95%;
 }
@@ -188,11 +191,11 @@ input[type=number] {
 #volume-slider {
     cursor: pointer;
     height: 20px;
-    background: rgb(19,170,61);
-    background: linear-gradient(90deg, rgba(19,170,61,1) 0%, rgba(228,255,0,1) 47%, rgba(255,40,40,1) 90%);
+    background: rgb(19, 170, 61);
+    background: linear-gradient(90deg, rgba(19, 170, 61, 1) 0%, rgba(228, 255, 0, 1) 47%, rgba(255, 40, 40, 1) 90%);
 }
 
-#volume-slider > div {
+#volume-slider>div {
     background: var(--secondary);
     right: 0;
     width: 50%;
@@ -219,7 +222,7 @@ input[type=number] {
     position: relative;
 }
 
-.queue_item > div:first-of-type {
+.queue_item>div:first-of-type {
     text-align: center;
 }
 
@@ -244,7 +247,7 @@ input[type=number] {
     height: 100%;
 }
 
-.queue_item:hover > .delTrack {
+.queue_item:hover>.delTrack {
     display: flex;
 }
 
@@ -272,6 +275,7 @@ input[type=number] {
     from {
         transform: translateY(0);
     }
+
     to {
         transform: translateY(-100%);
     }
@@ -321,7 +325,7 @@ input[type=number] {
     gap: 10px;
 }
 
-#SLctrlBtn > button {
+#SLctrlBtn>button {
     width: 100%;
     padding: .5rem;
     font-family: Poppins;
@@ -331,7 +335,7 @@ input[type=number] {
     box-shadow: 0px 0px 7px 2px var(--primary);
 }
 
-#SLctrlBtn > button:active {
+#SLctrlBtn>button:active {
     box-shadow: 0px 0px 10px 2px var(--primary) inset;
 }
 
@@ -393,7 +397,7 @@ input[type=number] {
     background: var(--tritiary);
 }
 
-#seek-range > div{
+#seek-range>div {
     background: var(--dodong-primary);
     height: 100%;
     position: absolute;
@@ -405,7 +409,7 @@ input[type=number] {
 
 /* Delete this if queue.seek() gets faster */
 
-#login > fieldset {
+#login>fieldset {
     padding: 2rem;
     min-width: 250px;
     width: 100%;
@@ -414,13 +418,13 @@ input[type=number] {
     border-radius: 5px;
 }
 
-#login > fieldset > legend {
+#login>fieldset>legend {
     padding: 0 .5rem;
     font-size: 2rem;
 }
 
-#login > fieldset input,
-#login > fieldset select {
+#login>fieldset input,
+#login>fieldset select {
     padding: .5rem;
     border-radius: 5px;
     border: 2px solid var(--tritiary);
@@ -444,7 +448,7 @@ input[type=number] {
     background-color: var(--dodong-primary);
 }
 
-#add_song input{
+#add_song input {
     width: 100%;
     padding: .5rem .5rem;
     border-radius: 10px;
@@ -460,6 +464,7 @@ input[type=number] {
 .searchResult {
     display: block;
 }
+
 /*
 .addResult {
     
@@ -474,18 +479,23 @@ input[type=number] {
         align-self: center;
         background-position: center;
     }
-    #dodongLogo + div {
+
+    #dodongLogo+div {
         display: none;
     }
+
     #nav {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
+
     #main_upper {
         flex-direction: column;
     }
-    html,body {
+
+    html,
+    body {
         overflow-y: auto;
     }
 }

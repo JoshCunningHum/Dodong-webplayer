@@ -1,16 +1,16 @@
-function display(text){
+function display(text) {
     document.write(text);
 }
 
-function padd(integer, n){
+function padd(integer, n) {
     let diff = n - String(integer).length;
-    if(diff > 0){
+    if (diff > 0) {
         integer = "0".repeat(diff) + integer;
     }
     return integer;
 }
 
-function startRangeAnimation(progress, duration){
+function startRangeAnimation(progress, duration) {
 
     localProgress = Math.ceil(progress / 1000);
     duration = duration / 1000;
@@ -25,7 +25,7 @@ function startRangeAnimation(progress, duration){
         slider.style.width = (localProgress / duration) * 100 + "%";
         progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
 
-        if(localProgress >= duration - 2){ // Stop the animation 2 seconds before finish
+        if (localProgress >= duration - 2) { // Stop the animation 2 seconds before finish
             clearInterval(progressInterval);
         }
 
@@ -34,72 +34,74 @@ function startRangeAnimation(progress, duration){
     }, 1000, duration);
 }
 
-function changeConnectStatus(status){
+function changeConnectStatus(status) {
     const target = document.getElementById("connectionStatus");
 
     // Will only do an update if the state changed
-    if(status && target.innerHTML != "Connected"){
+    if (status && target.innerHTML != "Connected") {
         target.classList.remove("slideUp");
         target.innerHTML = "Connected";
         target.style.background = "var(--dodong-secondary)";
-        setTimeout( () => { target.classList.add("slideUp") }, 1000);
-    }else if(!status && target.innerHTML != "Not Connected"){
+        setTimeout(() => {
+            target.classList.add("slideUp")
+        }, 1000);
+    } else if (!status && target.innerHTML != "Not Connected") {
         target.classList.remove("slideUp");
         target.innerHTML = "Not Connected";
         target.style.background = "var(--dodong-primary)";
     }
 }
 
-function changePage(id){
+function changePage(id) {
     const pages = Array.from(document.getElementById("MODAL").children);
     pages.forEach((page) => {
-        if(page.id != id){
+        if (page.id != id) {
             page.classList.add("sr-only");
-        }else{
+        } else {
             page.classList.remove("sr-only");
         }
     });
 }
 
-function discordPlayerControl(control_type, args = {}){
+function discordPlayerControl(control_type, args = {}) {
     args.guild = guildID;
     args.type = control_type;
     socket.emit('controlSignal', args);
 }
 
-function disableNav(state = true){
-    $(".navBtn").each( (i, el) => {
+function disableNav(state = true) {
+    $(".navBtn").each((i, el) => {
         $(el).attr("disabled", state);
     })
 }
 
-function selectItem(select, value){
-    for(let i = 0; i < select.options.length; i++){
-        if(select.options[i].value == value){
+function selectItem(select, value) {
+    for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value == value) {
             select.selectedIndex = i;
             break;
         }
     }
 }
 
-function updateGuildSelect(){
+function updateGuildSelect() {
     const savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-    if(savedGuilds != null && savedGuilds != undefined){
+    if (savedGuilds != null && savedGuilds != undefined) {
         const guildSelect = document.querySelector("#login > fieldset > select.monospace");
         guildSelect.innerHTML = "";
         $(guildSelect).append(`<option value="0">Choose a guild</option>`);
-        for(let i of savedGuilds){
+        for (let i of savedGuilds) {
             $(guildSelect).append(`<option value="${i.id}">${i.name}</option>`);
         }
         $(guildSelect).attr("disabled", false);
     }
 }
 
-function removeGuildonLocal(id){
+function removeGuildonLocal(id) {
     let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-    if(savedGuilds != undefined && savedGuilds != null){
-        for(let i in savedGuilds){
-            if(savedGuilds[i].id == id){
+    if (savedGuilds != undefined && savedGuilds != null) {
+        for (let i in savedGuilds) {
+            if (savedGuilds[i].id == id) {
                 console.log(`${i} is deleted`);
                 savedGuilds.splice(i, 1);
                 localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
@@ -110,19 +112,19 @@ function removeGuildonLocal(id){
     updateGuildSelect();
 }
 
-async function askBotURL(){
+async function askBotURL() {
     let response = await fetch('/botURL', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         referrerPolicy: 'no-referrer'
     })
     discordBotUrl = await response.json();
 }
 
-async function getSearchResults(query, lyrics = false){
+async function getSearchResults(query, lyrics = false) {
     let response = await fetch(lyrics ? `/lyrics` : `/search`, {
         method: 'POST',
         cache: 'no-cache',
@@ -130,19 +132,21 @@ async function getSearchResults(query, lyrics = false){
             'Content-Type': 'application/json'
         },
         referrerPolicy: 'no-referrer',
-        body: JSON.stringify({ query: query})
+        body: JSON.stringify({
+            query: query
+        })
     });
 
     return await response.json();
 };
 
-function setFixedHeights(){
+function setFixedHeights() {
     const toBeFixed = Array.from(document.getElementsByClassName("fixedHeight"), el => [el, el.dataset.target]);
-    for(let el of toBeFixed){
+    for (let el of toBeFixed) {
         let basedHeight;
-        if(el[1] == "$Parent$"){
+        if (el[1] == "$Parent$") {
             basedHeight = el[0].parentElement.clientHeight;
-        }else{
+        } else {
             basedHeight = document.querySelector(el[0]).clientHeight;
         }
         el[0].height = basedHeight;
@@ -155,25 +159,26 @@ function setFixedHeights(){
     Returns: [4, 1] - The value at index 4 is moved to index 1
 */
 
-function getNewPositions(arrBefore, arrAfter){
-    if(arrBefore.length != arrAfter.length) return;
-    
-    let iniPos, finalPos = arrBefore.length - 1, valB, valF;
-    for(let i = 0; i < arrBefore.length; i++){
+function getNewPositions(arrBefore, arrAfter) {
+    if (arrBefore.length != arrAfter.length) return;
+
+    let iniPos, finalPos = arrBefore.length - 1,
+        valB, valF;
+    for (let i = 0; i < arrBefore.length; i++) {
         [valB, valF] = [arrBefore[i], arrAfter[i]];
 
-        if(iniPos == undefined){
-            if(valB != valF) iniPos = i;
-        }else{ 
-            if(valB == valF){
-                finalPos = i-1;
+        if (iniPos == undefined) {
+            if (valB != valF) iniPos = i;
+        } else {
+            if (valB == valF) {
+                finalPos = i - 1;
                 break;
             }
         }
     }
-    
-    if(iniPos == undefined) return null;
-    if(arrBefore[iniPos] != arrAfter[finalPos]) [iniPos, finalPos] = [finalPos, iniPos];
+
+    if (iniPos == undefined) return null;
+    if (arrBefore[iniPos] != arrAfter[finalPos])[iniPos, finalPos] = [finalPos, iniPos];
 
 
     return [iniPos, finalPos];
@@ -181,11 +186,11 @@ function getNewPositions(arrBefore, arrAfter){
 
 // Straight from stackoverflow
 function isValidURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
-  }
+}

@@ -1,11 +1,13 @@
-function requestData(){
+function requestData() {
     console.clear();
 
     // request for Data
-    socket.emit("getData", {guild: guildID});
+    socket.emit("getData", {
+        guild: guildID
+    });
 }
 
-function recData(res){
+function recData(res) {
     console.log(`Updating Player`);
     console.log(res);
 
@@ -15,7 +17,7 @@ function recData(res){
     queueCont.classList.remove("empty");
 
     // If no guild is found, it receives an undefined data
-    if(res == null){
+    if (res == null) {
         display("Error: this link seems to be outdated or modified. GUILD_ID no match. If I am wrong then try to refresh");
         socket.disconnect();
 
@@ -26,39 +28,39 @@ function recData(res){
     document.getElementById("import_guildName").innerHTML = res.guildName;
 
     // Saves the guild for later use (Login page)
-    if(guildID && res.guildName && res.guildName != "Guild Sample"){
+    if (guildID && res.guildName && res.guildName != "Guild Sample") {
         let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-        if(savedGuilds != null && savedGuilds != undefined){
+        if (savedGuilds != null && savedGuilds != undefined) {
             let guildFound = false;
-            for(let i of savedGuilds){
-                if(i.id == guildID){
+            for (let i of savedGuilds) {
+                if (i.id == guildID) {
                     // always set the name incase of an update
                     i.name = res.guildName;
                     guildFound = true;
                     break;
                 }
             }
-            if(!guildFound){
+            if (!guildFound) {
                 savedGuilds.push({
                     id: guildID,
                     name: res.guildName
                 });
-                localStorage.setItem("savedGuilds",JSON.stringify(savedGuilds));
+                localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
                 updateGuildSelect();
             }
-        }else{
+        } else {
             savedGuilds = [];
             savedGuilds.push({
                 id: guildID,
                 name: res.guildName
             });
-            localStorage.setItem("savedGuilds",JSON.stringify(savedGuilds));
+            localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
             updateGuildSelect();
         }
     }
 
     // If no queue is found
-    if(!res.current){
+    if (!res.current) {
         queueCont.innerHTML = "There are no upcoming songs";
         queueCont.classList.add("empty");
 
@@ -73,7 +75,7 @@ function recData(res){
     let trackCount = 0;
 
     // Queue Update
-    for(let i of res.tracks){
+    for (let i of res.tracks) {
         const inner = `
             <div data-value-id="order">${trackCount+1}</div>
             <div data-value-id="title">${i.title}</div>
@@ -89,8 +91,8 @@ function recData(res){
 
         const delBtn = document.createElement("btn");
         delBtn.innerHTML = "❌";
-        delBtn.classList.add("delTrack","flex","justify-center","align-center");
-        delBtn.addEventListener("click", function(){
+        delBtn.classList.add("delTrack", "flex", "justify-center", "align-center");
+        delBtn.addEventListener("click", function () {
             deleteTrack(this);
         });
 
@@ -112,14 +114,14 @@ function recData(res){
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
     seekRange.dataset.max = Math.floor(res.current.durationMS / 1000);
-    
+
     // Global Variables
     cSongDuration = res.current.durationMS;
     inVoiceChannel = res.inVoiceChannel;
 
     // Loop State Update
     const repeatButton = document.getElementById("repeatBtn");
-    switch(res.repeatMode){
+    switch (res.repeatMode) {
         case 2:
             repeatButton.dataset.state = "2";
             repeatButton.classList.add("active");
@@ -142,12 +144,12 @@ function recData(res){
     _volSlide(volumeSlider, res.volume);
 
     // Pause / Resume & Slider Interval
-    if(res.playing){
+    if (res.playing) {
         stateToggler.innerHTML = pauseSVG;
         stateToggler.dataset.state = "play";
         stateToggler.classList.add("paused");
         startRangeAnimation(res.current.progress, res.current.durationMS);
-    }else{
+    } else {
         stateToggler.innerHTML = playSVG;
         stateToggler.dataset.state = "pause";
         stateToggler.classList.remove("paused");
@@ -155,15 +157,14 @@ function recData(res){
     }
 }
 
-function displayError(err){
-    switch(err.type){
+function displayError(err) {
+    switch (err.type) {
         case "NO_GUILD":
             changePage("login");
             disableNav();
-            if(!socket.connected) return;
+            if (!socket.connected) return;
             removeGuildonLocal(err.guildID);
             console.log(`GUILD_ID: ${err.guildID} not found on discord bot`);
             break;
     }
 }
-

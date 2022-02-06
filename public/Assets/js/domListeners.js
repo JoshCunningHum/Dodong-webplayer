@@ -1,7 +1,7 @@
 // DOM Event Listeners
 
 // Play / Pause Button
-stateToggler.addEventListener("click", function() {
+stateToggler.addEventListener("click", function () {
     if (this.dataset.state == "play") {
         this.innerHTML = playSVG;
         this.classList.remove("paused");
@@ -56,14 +56,14 @@ document.getElementById("loginGuildBtn").addEventListener("click", function () {
     const guildInput = document.getElementById("login_guildInput").value;
     const guildSelect = this.parentElement.querySelector("select.monospace").value;
 
-    if(guildSelect == 0 && guildInput.length == 0){
+    if (guildSelect == 0 && guildInput.length == 0) {
         alert("Enter a GUILD_ID or Choose from the saved GUILD IDs if available");
         return;
     }
 
     const currentURL = window.location.href.split("?")[0];
 
-    
+
 
     if (guildSelect != 0) { // if guild selected is not 0 then choose guildSelect
         window.location.replace(`${currentURL}?guildID=${guildSelect}`);
@@ -80,21 +80,21 @@ document.getElementById("login_guildInput").addEventListener("change", function 
 });
 
 // Search and Lyrics Expand
-document.getElementById("SLexpandBtn").addEventListener("click", function() {
+document.getElementById("SLexpandBtn").addEventListener("click", function () {
     const SLCont = document.getElementById("SLcont");
-    if(SLCont.classList.contains("expanded")){
+    if (SLCont.classList.contains("expanded")) {
         SLCont.classList.remove("expanded");
         this.classList.remove("expanded");
-    }else{
+    } else {
         SLCont.classList.add("expanded");
         this.classList.add("expanded");
     }
 });
 
 // Search Button
-document.getElementById("searchButton").addEventListener("click", async function() {
+document.getElementById("searchButton").addEventListener("click", async function () {
     const query = document.getElementById("searchQuery").value;
-    if(!query || query.length == 0) return;
+    if (!query || query.length == 0) return;
     if (!inVoiceChannel) {
         alert("The bot is not in a voice channel");
         return;
@@ -106,24 +106,24 @@ document.getElementById("searchButton").addEventListener("click", async function
     */
 
     // If query is a valid URL
-   if(isValidURL(query)){
+    if (isValidURL(query)) {
         socket.emit("play", {
             guild: guildID,
             query: query,
             voiceChannelID: inVoiceChannel
         })
         return;
-   }
+    }
 
     const results = await getSearchResults(query);
     let resultList = "";
-    for(let i = 0; i < results.length; i++) {
+    for (let i = 0; i < results.length; i++) {
         resultList = resultList.concat(
             `<div class="searchResult">
                 <a href="https://youtu.be/${results[i].id}">${results[i].title}</a>
                 <button class="addResult" value="${results[i].id}">+</button>
              </div>` // results[i].thumbnail.url for the thumbnail image, in case u wanna show it too
-            );
+        );
     }
     // set results limit to 10 instead of 5?
     // cos 5 seems too low for the large SLResults div
@@ -141,24 +141,24 @@ document.getElementById("searchButton").addEventListener("click", async function
 });
 
 // Lyrics Button
-document.getElementById("lyricsButton").addEventListener("click", async function() {
+document.getElementById("lyricsButton").addEventListener("click", async function () {
     const query = document.getElementById("searchQuery").value;
-    if(!query || query.length == 0) return;
+    if (!query || query.length == 0) return;
     const results = await getSearchResults(query, true);
     document.getElementById("SLResults").innerText = results;
     document.getElementById("searchQuery").value = "";
 });
 
 // When Browser Resizes
-$(window).resize(function(){
+$(window).resize(function () {
 
     // All Fixed Heights
     setFixedHeights();
 });
 
 // Repeat Button
-document.getElementById("repeatBtn").addEventListener("click", function(){
-    switch(this.dataset.state){
+document.getElementById("repeatBtn").addEventListener("click", function () {
+    switch (this.dataset.state) {
         case "0":
             this.dataset.state = "2";
             this.classList.add("active");
@@ -174,37 +174,39 @@ document.getElementById("repeatBtn").addEventListener("click", function(){
             this.innerHTML = repQSVG;
             break;
     }
-    discordPlayerControl("loop", { repeatType: parseInt(this.dataset.state)});
+    discordPlayerControl("loop", {
+        repeatType: parseInt(this.dataset.state)
+    });
 });
 
 // --- Event Chain for the Volume Slider ---
-document.getElementById("volume-slider").addEventListener("mousedown", function(e){
+document.getElementById("volume-slider").addEventListener("mousedown", function (e) {
     this.dataset.activeDrag = true;
     this.dataset.downCoord = e.clientX;
     this.classList.add("isChanging");
     _volSlide(this, e);
 })
 
-document.getElementById("player-container").addEventListener("mousemove", function(e){
+document.getElementById("player-container").addEventListener("mousemove", function (e) {
     const volumeSlider = document.getElementById("volume-slider");
-    if(volumeSlider.dataset.activeDrag == "true") _volSlide(volumeSlider, e);
+    if (volumeSlider.dataset.activeDrag == "true") _volSlide(volumeSlider, e);
 })
 
-function _volSlide(el, e){
+function _volSlide(el, e) {
     let CRD;
 
-    if(typeof e == "number"){
+    if (typeof e == "number") {
         CRD = e / 100;
-    }else{
+    } else {
         const coordDiff = e.clientX - parseFloat(el.dataset.downCoord);
         const remPart = parseFloat(el.dataset.downCoord) - el.getBoundingClientRect().left;
 
         CRD = (remPart + coordDiff) / el.getBoundingClientRect().width;
     }
 
-    if(CRD < 0){
+    if (CRD < 0) {
         CRD = 0;
-    }else if(CRD > 1){
+    } else if (CRD > 1) {
         CRD = 1;
     }
 
@@ -215,27 +217,29 @@ function _volSlide(el, e){
     el.dataset.tooltip = `${el.dataset.vol}%`;
 }
 
-document.getElementById("player-container").addEventListener("mouseup", function(){
+document.getElementById("player-container").addEventListener("mouseup", function () {
     const volumeSlider = document.getElementById("volume-slider");
     volumeSlider.classList.remove("isChanging");
     volumeSlider.dataset.activeDrag = "false";
 
-    discordPlayerControl("volume", {volume:parseInt(volumeSlider.dataset.tooltip)});
+    discordPlayerControl("volume", {
+        volume: parseInt(volumeSlider.dataset.tooltip)
+    });
 })
 // --- Event Chain for the Volume Slider ---
 
 // Move Feature
-function _moveUpdate(){
+function _moveUpdate() {
     const queueCont = document.getElementById("queue-container");
     const qChildren = queueCont.querySelectorAll(":scope > div[data-index]");
     const finalOrder = Array.from(qChildren).map(e => parseInt(e.dataset.index));
     let iniOrder = [];
-    
-    for(let i = 0; i < qChildren.length; i++) iniOrder.push(i);
+
+    for (let i = 0; i < qChildren.length; i++) iniOrder.push(i);
 
     const argPos = getNewPositions(iniOrder, finalOrder);
-    
-    Array.from(qChildren).forEach( (e, i) => { 
+
+    Array.from(qChildren).forEach((e, i) => {
         e.dataset.index = iniOrder[i];
         e.querySelector(`:scope [data-value-id="order"]`).innerText = i + 1;
     });
@@ -247,6 +251,6 @@ function _moveUpdate(){
 }
 
 // Shuffle Btn
-document.getElementById("shuffleBtn").addEventListener("click", function(){
+document.getElementById("shuffleBtn").addEventListener("click", function () {
     discordPlayerControl("shuffle");
 })
