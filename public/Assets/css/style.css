@@ -500,15 +500,33 @@ input[type=number] {
     grid-template-columns: 1fr 50px;
 }
 
+.searchResult a {
+    text-decoration: none;
+    color: deepskyblue;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.searchResult a:visited {
+    color: deeppink;
+}
+
 .searchResult:hover {
     background: var(--tritiary);
 }
 
-/*
 .addResult {
-    
+    border: none;
+    background: transparent;
+    display: none;
 }
-*/
+
+.searchResult:hover .addResult {
+    display: initial;
+}
+
 
 @media (orientation: portrait) {
     #dodongLogo {

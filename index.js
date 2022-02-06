@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const Youtube = require("youtube-sr").default;
 const Genius = require("genius-lyrics");
-const Lyrics = new Genius.Client(config.geniusApiToken);
+const Lyrics = new Genius.Client(process.env.GENIUSAPITOKEN || config.geniusApiToken);
 
 // use the express-static middleware
 app.use(express.static("public"))

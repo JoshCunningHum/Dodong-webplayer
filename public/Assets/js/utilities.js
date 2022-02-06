@@ -1,4 +1,6 @@
 function display(text) {
+    // TODO
+    // create a info modal to display text
     document.write(text);
 }
 

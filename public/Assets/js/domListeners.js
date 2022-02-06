@@ -122,7 +122,7 @@ document.getElementById("searchButton").addEventListener("click", async function
         resultList = resultList.concat(
             `<div class="searchResult">
                 <a href="https://youtu.be/${results[i].id}">${results[i].title}</a>
-                <button class="addResult" value="${results[i].id}">+</button>
+                <button class="addResult" value="${results[i].id}">➕</button>
              </div>` // results[i].thumbnail.url for the thumbnail image, in case u wanna show it too
         );
     }
