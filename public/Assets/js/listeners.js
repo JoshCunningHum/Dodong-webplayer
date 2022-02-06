@@ -99,13 +99,6 @@ function recData(res) {
         queueItem.append(delBtn);
         queueCont.append(queueItem);
 
-        // For cutting long texts
-        ["title", "author", "requestor", "duration"].forEach( (e) => {
-            if(isTooLong(i[e], queueItem.querySelector(`[data-value-id="${e}"]`))){
-                queueItem.querySelector(`[data-value-id="${e}"]`).classList.add("tooLong");
-            }
-        });
-
         if(i.requestedBy.bot){
             queueItem.querySelector('[data-value-id="requestor"]').classList.add("bot");
         }
@@ -113,7 +106,10 @@ function recData(res) {
         trackCount++;
     }
 
-    // Makes the queue container sortable
+    // Cut long text
+    _cutLongTextInQueue();
+
+    // Makes the queue container sortable / reorder-able
     $("#queue-container").sortable({
         axis: "y",
         update: _moveUpdate
@@ -125,6 +121,9 @@ function recData(res) {
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
     seekRange.dataset.max = Math.floor(res.current.durationMS / 1000);
+    // TODO: Thumbnail Image
+    // TODO: BASE64 Audio for Audio Visualizer
+
 
     // Global Variables
     cSongDuration = res.current.durationMS;

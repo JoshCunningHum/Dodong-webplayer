@@ -124,6 +124,7 @@ document.getElementById("searchButton").addEventListener("click", async function
                 <a href="https://youtu.be/${results[i].id}">${results[i].title}</a>
                 <button class="addResult" value="${results[i].id}">➕</button>
              </div>` // results[i].thumbnail.url for the thumbnail image, in case u wanna show it too
+             // yes i wanna show it
         );
     }
     // set results limit to 10 instead of 5?
