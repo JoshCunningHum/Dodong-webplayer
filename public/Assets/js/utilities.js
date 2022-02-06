@@ -224,3 +224,20 @@ function getCanvasFontSize(el = document.body) {
 
     return `${fontWeight} ${fontSize} ${fontFamily}`;
 }
+
+function _cutLongTextInQueue(){
+    const queueCont = document.querySelector("#queue-container");
+    const queueItems = queueCont.querySelectorAll(":scope > div[data-index]");
+
+    queueItems.forEach( (queueItem) => {
+        ["title", "author", "requestor", "duration"].forEach( (e) => {
+            const queueValue = queueItem.querySelector(`[data-value-id="${e}"]`);
+            if(isTooLong(queueValue.innerText, queueValue)){
+                queueValue.classList.add("tooLong");
+            }else{
+                queueValue.classList.remove("tooLong");
+            }
+        });
+    })
+    
+}

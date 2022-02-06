@@ -131,7 +131,6 @@ document.getElementById("searchButton").addEventListener("click", async function
 
     // yes
     document.getElementById("SLResults").innerHTML = resultList;
-    document.getElementById("searchQuery").value = "";
 
     document.querySelectorAll(".addResult").forEach(b => b.addEventListener('click', async function () {
         //console.log(`addResult clicked: https://youtu.be/${b.value}`); // for debugging
@@ -157,6 +156,9 @@ $(window).resize(function () {
 
     // All Fixed Heights
     setFixedHeights();
+
+    // Cut long text in queue
+    _cutLongTextInQueue();
 });
 
 // Repeat Button
