@@ -4,5 +4,5 @@
 ## Note
 Change `discordBotUrl` on `config.js`
 ```js
-var discordBotUrl = "DISCORD BOT URL HERE"; 
+discordBotUrl: "DISCORD BOT URL HERE"
 ```
