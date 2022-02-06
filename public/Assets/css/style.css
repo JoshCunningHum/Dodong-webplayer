@@ -230,7 +230,6 @@ input[type=number] {
     background: var(--secondary);
 }
 
-
 .delTrack {
     position: absolute;
     /* font-size: 2rem; */
@@ -249,6 +248,31 @@ input[type=number] {
 
 .queue_item:hover>.delTrack {
     display: flex;
+}
+
+.queue_item > div {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+.queue_item > .tooLong {
+    margin-right: 2rem;
+}
+
+.queue_item > .tooLong::after {
+    content: "...";
+    position: absolute;
+    right: -0.1rem;
+    background-color: var(--primary);
+}
+
+.queue_item:hover > .tooLong::after {
+    background: var(--secondary);
+}
+
+.queue_item > .bot {
+    color: dodgerblue;
 }
 
 #connectionStatus {

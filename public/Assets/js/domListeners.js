@@ -107,6 +107,7 @@ document.getElementById("searchButton").addEventListener("click", async function
 
     // If query is a valid URL
     if (isValidURL(query)) {
+
         socket.emit("play", {
             guild: guildID,
             query: query,
@@ -217,7 +218,11 @@ function _volSlide(el, e) {
     el.dataset.tooltip = `${el.dataset.vol}%`;
 }
 
-document.getElementById("player-container").addEventListener("mouseup", function () {
+document.getElementById("player-container").addEventListener("mouseup", _volUpdate)
+
+document.getElementById("player-container").addEventListener("mouseleave", _volUpdate);
+
+function _volUpdate(){
     const volumeSlider = document.getElementById("volume-slider");
     volumeSlider.classList.remove("isChanging");
     volumeSlider.dataset.activeDrag = "false";
@@ -225,7 +230,7 @@ document.getElementById("player-container").addEventListener("mouseup", function
     discordPlayerControl("volume", {
         volume: parseInt(volumeSlider.dataset.tooltip)
     });
-})
+}
 // --- Event Chain for the Volume Slider ---
 
 // Move Feature
@@ -238,6 +243,7 @@ function _moveUpdate() {
     for (let i = 0; i < qChildren.length; i++) iniOrder.push(i);
 
     const argPos = getNewPositions(iniOrder, finalOrder);
+    if(argPos == null) return;
 
     Array.from(qChildren).forEach((e, i) => {
         e.dataset.index = iniOrder[i];

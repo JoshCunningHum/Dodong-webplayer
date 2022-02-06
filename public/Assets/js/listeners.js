@@ -99,6 +99,17 @@ function recData(res) {
         queueItem.append(delBtn);
         queueCont.append(queueItem);
 
+        // For cutting long texts
+        ["title", "author", "requestor", "duration"].forEach( (e) => {
+            if(isTooLong(i[e], queueItem.querySelector(`[data-value-id="${e}"]`))){
+                queueItem.querySelector(`[data-value-id="${e}"]`).classList.add("tooLong");
+            }
+        });
+
+        if(i.requestedBy.bot){
+            queueItem.querySelector('[data-value-id="requestor"]').classList.add("bot");
+        }
+
         trackCount++;
     }
 
