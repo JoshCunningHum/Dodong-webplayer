@@ -26,7 +26,7 @@ app.post('/botURL', function (req, res){
 
 // asks for YouTube Results
 app.post('/search', function(req, res) {
-	Youtube.search(req.body.query, {limit: 5, type: "video", safeSearch: true})
+	Youtube.search(req.body.query, {limit: 10, type: "video", safeSearch: true})
 		.then(results => res.json(results))
 		.catch(console.error);
 });

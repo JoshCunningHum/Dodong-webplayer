@@ -1,3 +1,9 @@
+
+:root {
+    --queue-template-col: 1fr 10fr 3fr 2fr 2fr;
+}
+
+
 /* Disables the number increment button on input[type=number]*/
 
 /* Chrome, Safari, Edge, Opera */
@@ -211,15 +217,16 @@ input[type=number] {
 }
 
 .queue_item {
-    font-size: 1rem;
-    font-family: monospace;
+    font-size: 0.9rem;
+    font-family: Poppins;
     color: white;
-    border-bottom: thin solid var(--tritiary);
+    border-bottom: thin solid var(--secondary);
     cursor: pointer;
     display: grid;
-    grid-template-columns: 1fr 8fr 6fr 5fr 4fr;
+    grid-template-columns: var(--queue-template-col);
     padding: .7rem 0;
     position: relative;
+    grid-gap: .25rem;
 }
 
 .queue_item>div:first-of-type {
@@ -369,12 +376,13 @@ input[type=number] {
 
 #queue-header {
     display: grid;
-    grid-template-columns: 1fr 8fr 6fr 5fr 4fr;
+    grid-template-columns: var(--queue-template-col);
     grid-gap: .25rem;
     font-family: Poppins;
     font-size: 1rem;
     color: var(--tritiary);
     border-bottom: thin solid var(--tritiary);
+    font-weight: 600;
 }
 
 #import_cTitle {
@@ -486,7 +494,14 @@ input[type=number] {
 
 /* i'm crap at styling stuff so ill leave these to u hehe */
 .searchResult {
-    display: block;
+    height: 50px;
+    border-bottom: thin dashed white;
+    display: grid;
+    grid-template-columns: 1fr 50px;
+}
+
+.searchResult:hover {
+    background: var(--tritiary);
 }
 
 /*

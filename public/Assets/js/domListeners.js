@@ -128,6 +128,8 @@ document.getElementById("searchButton").addEventListener("click", async function
     }
     // set results limit to 10 instead of 5?
     // cos 5 seems too low for the large SLResults div
+
+    // yes
     document.getElementById("SLResults").innerHTML = resultList;
     document.getElementById("searchQuery").value = "";
 
