@@ -142,10 +142,12 @@ document.getElementById("searchButton").addEventListener("click", async function
 document.getElementById("lyricsButton").addEventListener("click", async function () {
     const query = document.getElementById("searchQuery").value;
     if (!query || query.length == 0) return;
-    const results = await getSearchResults(query, true);
-    document.getElementById("SLResults").innerText = results;
+    let results = await getSearchResults(query, true);
+    console.log(results);
 
-    // TODO: REGEX Filtering for proper font styles assignment
+    results = results.replace(/(\r\n|\r|\n)/g, `\n<br>`).replace(/\[/g, "[<strong>").replace(/\]/g, "</strong>]").replace(/\(/g, "(<em>").replace(/\)/g, "</em>)");
+
+    document.getElementById("SLResults").innerHTML = results;
 });
 
 // When Browser Resizes

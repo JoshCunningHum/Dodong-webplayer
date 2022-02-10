@@ -375,7 +375,10 @@ input[type=number] {
 }
 
 #SLResults {
-    font-family: Roboto;
+    font-family: Poppins;
+    font-weight: 300;
+    font-size: .9rem;
+    letter-spacing: 0.5px;
 }
 
 #queue-header {
