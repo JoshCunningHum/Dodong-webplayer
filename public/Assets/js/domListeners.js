@@ -141,7 +141,6 @@ document.getElementById("lyricsButton").addEventListener("click", async function
     const query = document.getElementById("searchQuery").value;
     if (!query || query.length == 0) return;
     let results = await getSearchResults(query, true);
-    console.log(results);
 
     results = results.replace(/(\r\n|\r|\n)/g, `\n<br>`).replace(/\[/g, "[<strong>").replace(/\]/g, "</strong>]").replace(/\(/g, "(<em>").replace(/\)/g, "</em>)");
 

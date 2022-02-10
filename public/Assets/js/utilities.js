@@ -107,7 +107,6 @@ function removeGuildonLocal(id) {
     if (savedGuilds != undefined && savedGuilds != null) {
         for (let i in savedGuilds) {
             if (savedGuilds[i].id == id) {
-                console.log(`${i} is deleted`);
                 savedGuilds.splice(i, 1);
                 localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
                 break;
