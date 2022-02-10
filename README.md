@@ -1,5 +1,5 @@
 # Dodong-webplayer
- A webplayer support for nizeic's Dodong Discord Music Bot
+ A webplayer support for [nizeic's Dodong Discord Music Bot](https://github.com/nizeic/Dodong)
 
 ## Note
 Change `discordBotUrl` on `config.js`
