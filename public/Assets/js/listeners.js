@@ -5,6 +5,9 @@ function requestData() {
     socket.emit("getData", {
         guild: guildID
     });
+
+    // TODO : Cooldown for requesting data
+    // Does not restrict users, only delays requests
 }
 
 function recData(res) {
@@ -115,7 +118,7 @@ function recData(res) {
         update: _moveUpdate
     })
 
-    // Player Details Update
+    // Current song details
     document.getElementById("import_cTitle").innerHTML = res.current.title;
     document.getElementById("import_cAuthor").innerHTML = res.current.author;
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;

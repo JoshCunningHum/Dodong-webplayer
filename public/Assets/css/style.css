@@ -374,6 +374,10 @@ input[type=number] {
     opacity: 1;
 }
 
+#SLResults {
+    font-family: Roboto;
+}
+
 #queue-header {
     display: grid;
     grid-template-columns: var(--queue-template-col);
@@ -494,10 +498,11 @@ input[type=number] {
 
 /* i'm crap at styling stuff so ill leave these to u hehe */
 .searchResult {
-    height: 50px;
     border-bottom: thin dashed white;
     display: grid;
-    grid-template-columns: 1fr 50px;
+    grid-template-columns: 100px 1fr 50px;
+    padding: .5rem 0;
+    grid-gap: .5rem;
 }
 
 .searchResult a {
@@ -507,6 +512,10 @@ input[type=number] {
     width: 100%;
     display: flex;
     align-items: center;
+}
+
+.searchResult img {
+    width: 100px;
 }
 
 .searchResult a:visited {

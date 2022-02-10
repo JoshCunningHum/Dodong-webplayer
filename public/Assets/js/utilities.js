@@ -1,6 +1,5 @@
 function display(text) {
-    // TODO
-    // create a info modal to display text
+    // TODO : Create info modal to display
     document.write(text);
 }
 
@@ -27,7 +26,7 @@ function startRangeAnimation(progress, duration) {
         slider.style.width = (localProgress / duration) * 100 + "%";
         progCont.innerHTML = `${minProg}:${padd(secProg, 2)}`;
 
-        if (localProgress >= duration - 2) { // Stop the animation 2 seconds before finish
+        if (localProgress >= duration - 1) { // Stop the animation 1 second before finish
             clearInterval(progressInterval);
         }
 

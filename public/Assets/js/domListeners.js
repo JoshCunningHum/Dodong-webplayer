@@ -100,11 +100,6 @@ document.getElementById("searchButton").addEventListener("click", async function
         return;
     }
 
-    /* todo:
-        if query is already a youtube/spotify/soundcloud URL,
-        we should skip this and just emit the play event for socket
-    */
-
     // If query is a valid URL
     if (isValidURL(query)) {
 
@@ -121,10 +116,10 @@ document.getElementById("searchButton").addEventListener("click", async function
     for (let i = 0; i < results.length; i++) {
         resultList = resultList.concat(
             `<div class="searchResult">
+                <img src="${results[i].thumbnail.url}">
                 <a href="https://youtu.be/${results[i].id}">${results[i].title}</a>
                 <button class="addResult" value="${results[i].id}">➕</button>
-             </div>` // results[i].thumbnail.url for the thumbnail image, in case u wanna show it too
-             // yes i wanna show it
+             </div>` 
         );
     }
     // set results limit to 10 instead of 5?
@@ -149,7 +144,8 @@ document.getElementById("lyricsButton").addEventListener("click", async function
     if (!query || query.length == 0) return;
     const results = await getSearchResults(query, true);
     document.getElementById("SLResults").innerText = results;
-    document.getElementById("searchQuery").value = "";
+
+    // TODO: REGEX Filtering for proper font styles assignment
 });
 
 // When Browser Resizes
