@@ -1,9 +1,7 @@
 function requestData() {
     console.clear();
 
-    let onCooldown = isOnCooldown();
-
-    if(onCooldown) return;
+    if(isOnCooldown()) return;
 
     // request for Data
     socket.emit("getData", {

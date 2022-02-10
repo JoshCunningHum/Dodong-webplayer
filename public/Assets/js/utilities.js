@@ -65,8 +65,7 @@ function changePage(id) {
 }
 
 function discordPlayerControl(control_type, args = {}) {
-    let onCooldown = isOnCooldown();
-    if(onCooldown) return;
+    if(isOnCooldown()) return;
 
     args.guild = guildID;
     args.type = control_type;
