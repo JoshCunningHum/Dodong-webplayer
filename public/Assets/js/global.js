@@ -7,10 +7,12 @@ const guildID = urlParams.get("guildID"); // IMPORTANT. found at query parameter
 var discordBotUrl, // IMPORTANT
     socket, // IMPORTANT
     progressInterval, // For the progress animation
+    lastReq = 0, // For cooldown
     localProgress, // For debugging purposes
     cSongDuration, // For debugging purposes
     inVoiceChannel; // For error handling
 
+const coolDownDelay = 1000; // in ms
 
 const stateToggler = document.getElementById('playpauseButton');
 const nextButton = document.getElementById("nextButton");

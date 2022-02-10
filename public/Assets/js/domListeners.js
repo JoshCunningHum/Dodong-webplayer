@@ -103,8 +103,7 @@ document.getElementById("searchButton").addEventListener("click", async function
     // If query is a valid URL
     if (isValidURL(query)) {
 
-        socket.emit("play", {
-            guild: guildID,
+        discordPlayerControl("play", {
             query: query,
             voiceChannelID: inVoiceChannel
         })
@@ -130,8 +129,7 @@ document.getElementById("searchButton").addEventListener("click", async function
 
     document.querySelectorAll(".addResult").forEach(b => b.addEventListener('click', async function () {
         //console.log(`addResult clicked: https://youtu.be/${b.value}`); // for debugging
-        socket.emit("play", {
-            guild: guildID,
+        discordPlayerControl("play", {
             query: `https://youtu.be/${b.value}`,
             voiceChannelID: inVoiceChannel
         });

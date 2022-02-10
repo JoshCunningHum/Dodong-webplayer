@@ -1,13 +1,19 @@
 function requestData() {
     console.clear();
 
+    let onCooldown = isOnCooldown();
+
+    if(onCooldown) return;
+
     // request for Data
     socket.emit("getData", {
         guild: guildID
     });
 
+
     // TODO : Cooldown for requesting data
     // Does not restrict users, only delays requests
+
 }
 
 function recData(res) {

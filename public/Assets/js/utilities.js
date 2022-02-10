@@ -65,9 +65,13 @@ function changePage(id) {
 }
 
 function discordPlayerControl(control_type, args = {}) {
+    let onCooldown = isOnCooldown();
+    if(onCooldown) return;
+
     args.guild = guildID;
     args.type = control_type;
-    socket.emit('controlSignal', args);
+    if(control_type == "play") socket.emit('play', args);
+    else socket.emit('controlSignal', args);
 }
 
 function disableNav(state = true) {
@@ -239,4 +243,17 @@ function _cutLongTextInQueue(){
         });
     })
     
+}
+
+function isOnCooldown(){
+    let date = new Date();
+    let current = date.getTime();
+
+    if(current - lastReq < coolDownDelay){
+        alert("Woah Slowdown, still on cooldown");
+        return true;
+    }
+
+    lastReq = current;
+    return false;
 }
