@@ -396,7 +396,6 @@ input[type=number] {
 
 #import_cThumbnail {
     width: calc(150px - 2rem);
-    height: calc(150px - 2rem);
 }
 
 #navCont {

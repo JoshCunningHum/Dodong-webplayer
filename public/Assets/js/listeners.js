@@ -124,7 +124,7 @@ function recData(res) {
     document.getElementById("import_cRequestor").innerHTML = res.current.requestedBy;
     document.getElementById("import_cDuration").innerHTML = res.current.duration;
     seekRange.dataset.max = Math.floor(res.current.durationMS / 1000);
-    // TODO: Thumbnail Image
+    document.getElementById("import_cThumbnail").setAttribute("src", res.current.thumbnail);
     // TODO: BASE64 Audio for Audio Visualizer
 
 
