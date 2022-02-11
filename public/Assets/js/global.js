@@ -1,3 +1,5 @@
+"use strict";
+
 // Global Variables
 const urlParams = new URLSearchParams(window.location.search);
 

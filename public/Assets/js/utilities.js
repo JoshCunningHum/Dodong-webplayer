@@ -1,5 +1,7 @@
+"use strict";
+
 function display(text) {
-    // TODO : Create info modal to display
+    // TODO : Create info modal to display text
     document.write(text);
 }
 
@@ -64,8 +66,8 @@ function changePage(id) {
     });
 }
 
-function discordPlayerControl(control_type, args = {}) {
-    if(isOnCooldown()) return;
+function discordPlayerControl(control_type, args = {}, cdCheck = true) {
+    if(cdCheck && isOnCooldown(`playerControl - ${control_type}`)) return;
 
     args.guild = guildID;
     args.type = control_type;
@@ -243,9 +245,11 @@ function _cutLongTextInQueue(){
     
 }
 
-function isOnCooldown(){
+function isOnCooldown(from){
     let date = new Date();
     let current = date.getTime();
+
+    // console.log("Call from: " + from); // For dev purposes
 
     if(current - lastReq < coolDownDelay){
         alert("Woah Slowdown, still on cooldown");

@@ -1,3 +1,5 @@
+"use strict";
+
 window.onload = () => {
     askBotURL().then(() => {
         _init();

@@ -1,18 +1,21 @@
+"use strict";
+
 // DOM Event Listeners
 
 // Play / Pause Button
 stateToggler.addEventListener("click", function () {
+    if(isOnCooldown("click")) return;
     if (this.dataset.state == "play") {
         this.innerHTML = playSVG;
         this.classList.remove("paused");
         this.dataset.state = "pause";
-        discordPlayerControl("pause");
+        discordPlayerControl("pause", {}, false);
         clearInterval(progressInterval);
     } else {
         this.dataset.state = "play";
         this.innerHTML = pauseSVG;
         this.classList.add("paused");
-        discordPlayerControl("resume");
+        discordPlayerControl("resume", {}, false);
         startRangeAnimation(localProgress * 1000, cSongDuration);
     }
 })
@@ -157,8 +160,9 @@ $(window).resize(function () {
     _cutLongTextInQueue();
 });
 
-// Repeat Button
+// Repeat/Loop Button
 document.getElementById("repeatBtn").addEventListener("click", function () {
+    if(isOnCooldown("loop")) return;
     switch (this.dataset.state) {
         case "0":
             this.dataset.state = "2";
@@ -177,7 +181,7 @@ document.getElementById("repeatBtn").addEventListener("click", function () {
     }
     discordPlayerControl("loop", {
         repeatType: parseInt(this.dataset.state)
-    });
+    }, false);
 });
 
 // --- Event Chain for the Volume Slider ---
@@ -224,6 +228,7 @@ document.getElementById("player-container").addEventListener("mouseleave", _volU
 
 function _volUpdate(){
     const volumeSlider = document.getElementById("volume-slider");
+    if(!volumeSlider.classList.contains("isChanging")) return;
     volumeSlider.classList.remove("isChanging");
     volumeSlider.dataset.activeDrag = "false";
 

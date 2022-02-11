@@ -1,7 +1,9 @@
+"use strict";
+
 function requestData() {
     console.clear();
 
-    if(isOnCooldown()) return;
+    if(isOnCooldown("reqData")) return;
 
     // request for Data
     socket.emit("getData", {
@@ -181,7 +183,7 @@ function displayError(err) {
             disableNav();
             if (!socket.connected) return;
             removeGuildonLocal(err.guildID);
-            console.log(`GUILD_ID: ${err.guildID} not found on discord bot`);
+            console.error(`GUILD_ID: ${err.guildID} not found on discord bot`);
             break;
     }
 }
