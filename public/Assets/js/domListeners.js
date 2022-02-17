@@ -60,7 +60,7 @@ document.getElementById("loginGuildBtn").addEventListener("click", function () {
     const guildSelect = this.parentElement.querySelector("select.monospace").value;
 
     if (guildSelect == 0 && guildInput.length == 0) {
-        alert("Enter a GUILD_ID or Choose from the saved GUILD IDs if available");
+        display("Enter a GUILD_ID or Choose from the saved GUILD IDs if available");
         return;
     }
 
@@ -99,7 +99,7 @@ document.getElementById("searchButton").addEventListener("click", async function
     const query = document.getElementById("searchQuery").value;
     if (!query || query.length == 0) return;
     if (!inVoiceChannel) {
-        alert("The bot is not in a voice channel");
+        display("The bot is not in a voice channel");
         return;
     }
 

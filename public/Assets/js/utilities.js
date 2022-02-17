@@ -2,7 +2,11 @@
 
 function display(text) {
     // TODO : Create info modal to display text
-    document.write(text);
+    const infoModal = document.querySelector("#infoM");
+
+    infoModal.querySelector("#infoM-Text").innerText = text;
+
+    changePage("infoM");
 }
 
 function padd(integer, n) {
@@ -252,7 +256,7 @@ function isOnCooldown(from){
     // console.log("Call from: " + from); // For dev purposes
 
     if(current - lastReq < coolDownDelay){
-        alert("Woah Slowdown, still on cooldown");
+        display("Woah Slowdown, still on cooldown");
         return true;
     }
 
