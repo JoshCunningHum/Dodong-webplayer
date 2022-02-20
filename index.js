@@ -1,39 +1,55 @@
 const express = require("express");
+const session = require('express-session');
 const app = express();
-const bodyParser = require("body-parser");
 const config = require("./config.js");
+const path = require('path');
 require("dotenv").config();
 
-const Youtube = require("youtube-sr").default;
-const Genius = require("genius-lyrics");
-const Lyrics = new Genius.Client(process.env.GENIUSAPITOKEN || config.geniusApiToken);
+const passport = require('passport');
+require('./src/strategies/discord');
+
+app.use(
+	session({
+		secret: 'meow meow', // todo: make this more secure
+		resave: false,
+		saveUninitialized: false,
+		//cookie: { secure: true } // for https only
+
+		// todo: use a different store
+		// http://expressjs.com/en/resources/middleware/session.html#compatible-session-stores
+	})
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', function (req, res) {
+	if(!req.session.passport) {
+	// probably not the best way to check the session, ill try to improve this later
+		console.log("---- Redirecting to auth.");
+		res.redirect('/auth');
+	} else {
+		console.log("---- Serving static files.");
+		res.sendFile("index.html", { root: path.join(__dirname, 'public') });
+	}
+});
 
 // use the express-static middleware
 app.use(express.static("public"))
 
-// body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
 // start the server listening for requests
-app.listen(process.env.PORT || 8080, 
-	() => console.log("Server is running..."));
+app.listen(process.env.PORT || 8080, () => console.log("Server is running."));
 
 // asks for bot URL
 app.post('/botURL', function (req, res){
 	res.json(process.env.DISCORDBOTURL || config.discordBotUrl);
 });
 
-// asks for YouTube Results
-app.post('/search', function(req, res) {
-	Youtube.search(req.body.query, {limit: 10, type: "video", safeSearch: true})
-		.then(results => res.json(results))
-		.catch(console.error);
-});
+const search = require('./src/routes/search');
+app.use('/search', search);
 
-// asks for Genius lyrics
-app.post('/lyrics', async function (req, res) {
-    const searches = await Lyrics.songs.search(req.body.query);
-    const lyrics = await searches[0].lyrics();
-    res.json(lyrics);
-});
+const lyrics = require('./src/routes/lyrics');
+app.use('/lyrics', lyrics);
+
+const auth = require('./src/routes/auth');
+app.use('/auth', auth);
