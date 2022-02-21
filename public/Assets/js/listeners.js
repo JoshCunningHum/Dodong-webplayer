@@ -16,6 +16,32 @@ function requestData() {
 
 }
 
+async function recGuilds(botGuildIds) {
+
+    // update session info
+    let response = await fetch('/session', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer'
+    });
+    session = await response.json();
+    // session can now be used to display user info, avatar, etc
+
+    // update available guilds (guilds that both the bot and the user are a member of)
+    await session.guilds.forEach(guild => (
+        botGuildIds.forEach((botGuildId) => {
+            if(botGuildId === guild.id)
+                availableGuilds.push(guild);
+        })
+    ));
+
+    // Updates the guild select option for the login page
+    updateGuildSelect();
+}
+
 function recData(res) {
     console.log(`Updating Player`);
     console.log(res);
@@ -35,38 +61,6 @@ function recData(res) {
 
     // Guild Name Update
     document.getElementById("import_guildName").innerHTML = res.guildName;
-
-    // Saves the guild for later use (Login page)
-    if (guildID && res.guildName && res.guildName != "Guild Sample") {
-        let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-        if (savedGuilds != null && savedGuilds != undefined) {
-            let guildFound = false;
-            for (let i of savedGuilds) {
-                if (i.id == guildID) {
-                    // always set the name incase of an update
-                    i.name = res.guildName;
-                    guildFound = true;
-                    break;
-                }
-            }
-            if (!guildFound) {
-                savedGuilds.push({
-                    id: guildID,
-                    name: res.guildName
-                });
-                localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
-                updateGuildSelect();
-            }
-        } else {
-            savedGuilds = [];
-            savedGuilds.push({
-                id: guildID,
-                name: res.guildName
-            });
-            localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
-            updateGuildSelect();
-        }
-    }
 
     // If no queue is found
     if (!res.current) {
@@ -182,7 +176,6 @@ function displayError(err) {
             changePage("login");
             disableNav();
             if (!socket.connected) return;
-            removeGuildonLocal(err.guildID);
             console.error(`GUILD_ID: ${err.guildID} not found on discord bot`);
             break;
     }
