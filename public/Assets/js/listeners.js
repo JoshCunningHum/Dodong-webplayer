@@ -28,15 +28,25 @@ async function recGuilds(botGuildIds) {
         referrerPolicy: 'no-referrer'
     });
     session = await response.json();
-    // session can now be used to display user info, avatar, etc
+
+/*
+session can be used to get user info, avatar, and user's guilds
+- put the session fetch in a separate function?
+- pass this to discordPlayerControl()? or at least just the session/user id
+    to identify which user performed the action (e.g. added a searchresult, pause, skip, etc)
+- a small section in the page to show user info?
+
+PS: to get avatars/icons
+for users: https://cdn.discordapp.com/avatars/${session.id}/${session.avatar}
+    example: https://cdn.discordapp.com/avatars/299715820219793420/c684581d0e1775cc29962dfe2863148b
+for guilds: https://cdn.discordapp.com/icons/${id}/${icon}  id and icon properties from the guild object
+    example: https://cdn.discordapp.com/icons/706460727573217381/561ba60d3a67752a7d7b3e5bdd9dab86
+*/
 
     // update available guilds (guilds that both the bot and the user are a member of)
-    await session.guilds.forEach(guild => (
-        botGuildIds.forEach((botGuildId) => {
-            if(botGuildId === guild.id)
-                availableGuilds.push(guild);
-        })
-    ));
+    availableGuilds = await session.guilds.filter(sessionGuild => 
+        !!botGuildIds.find(id => id === sessionGuild.id)
+    );
 
     // Updates the guild select option for the login page
     updateGuildSelect();
