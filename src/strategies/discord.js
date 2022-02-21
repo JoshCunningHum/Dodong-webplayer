@@ -34,7 +34,17 @@ passport.use(
                 console.log(`-- User found: ${user.username}`);
                 return done(null, user);
             } else {
-                await global.addUser(profile);
+                await global.addUser({
+                    id: profile.id,
+                    username: profile.username,
+                    avatar: profile.avatar,
+                    discriminator: profile.discriminator,
+                    guilds: profile.guilds.map(guild => ({
+                        id: guild.id,
+                        name: guild.name,
+                        icon: guild.icon,
+                    }))
+                });
                 console.log(`-- Added user: ${profile.username}`);
                 return done(null, profile);
             }
