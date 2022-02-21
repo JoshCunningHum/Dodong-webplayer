@@ -53,3 +53,6 @@ app.use('/lyrics', lyrics);
 
 const auth = require('./src/routes/auth');
 app.use('/auth', auth);
+
+const sessionInfo = require('./src/routes/session');
+app.use('/session', sessionInfo);
