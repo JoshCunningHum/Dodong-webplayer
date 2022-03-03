@@ -2,6 +2,7 @@ const passport = require('passport');
 const { Strategy } = require('passport-discord');
 const config = require('../../config.js');
 const global = require('../global');
+require("dotenv").config();
 
 passport.serializeUser((user, done) => {
     console.log(`Serializing user: ${user.username}`);
@@ -22,8 +23,8 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(
     new Strategy({
-        clientID: config.clientId,
-        clientSecret: config.clientSecret,
+        clientID: process.env.CLIENTID || config.clientId,
+        clientSecret: process.env.CLIENTSECRET || config.clientSecret,
         callbackURL: `http://localhost:${process.env.PORT || 8080}/auth/redirect`,
         scope: ['identify', 'guilds']
     }, async (accessToken, refreshToken, profile, done) => {

@@ -24,7 +24,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (req, res) {
-	if(!req.session.passport) {
+	if(!req.session.passport && !req.query.guildID) {
 	// probably not the best way to check the session, ill try to improve this later
 		console.log("---- Redirecting to auth.");
 		res.redirect('/auth');

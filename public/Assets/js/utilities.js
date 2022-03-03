@@ -1,7 +1,6 @@
 "use strict";
 
 function display(text) {
-    // TODO : Create info modal to display text
     const infoModal = document.querySelector("#infoM");
 
     infoModal.querySelector("#infoM-Text").innerText = text;
@@ -11,9 +10,7 @@ function display(text) {
 
 function padd(integer, n) {
     let diff = n - String(integer).length;
-    if (diff > 0) {
-        integer = "0".repeat(diff) + integer;
-    }
+    if (diff > 0) integer = "0".repeat(diff) + integer;
     return integer;
 }
 
