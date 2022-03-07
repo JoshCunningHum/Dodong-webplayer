@@ -133,6 +133,7 @@ document.getElementById("searchButton").addEventListener("click", async function
     document.querySelectorAll(".addResult").forEach(b => b.addEventListener('click', async function () {
         //console.log(`addResult clicked: https://youtu.be/${b.value}`); // for debugging
         discordPlayerControl("play", {
+            requestor: session.id,
             query: `https://youtu.be/${b.value}`,
             voiceChannelID: inVoiceChannel
         });
