@@ -24,7 +24,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (req, res) {
-	if(!req.session.passport && !req.query.guildID) {
+	if(!req.session.passport) {
 	// probably not the best way to check the session, ill try to improve this later
 		console.log("---- Redirecting to auth.");
 		res.redirect('/auth');
@@ -41,8 +41,10 @@ app.use(express.static("public"))
 app.listen(process.env.PORT || 8080, () => console.log("Server is running."));
 
 // asks for bot URL
+// Now returns where socket (as server) resides
 app.post('/botURL', function (req, res){
-	res.json(process.env.DISCORDBOTURL || config.discordBotUrl);
+	if(process.env.TEST) res.json('http://localhost:3001'); // For development purposes
+	else res.json(process.env.THISURL || config.thisURL);
 });
 
 const search = require('./src/routes/search');
@@ -56,3 +58,6 @@ app.use('/auth', auth);
 
 const sessionInfo = require('./src/routes/session');
 app.use('/session', sessionInfo);
+
+// Initiate socket connection
+const botSocket = require("./src/socket/client.js");

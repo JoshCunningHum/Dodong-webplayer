@@ -235,7 +235,7 @@ function isOnCooldown(from){
     let date = new Date();
     let current = date.getTime();
 
-    // console.log("Call from: " + from); // For dev purposes
+    console.log("Call from: " + from); // For dev purposes
 
     if(current - lastReq < coolDownDelay){
         display("Woah Slowdown, still on cooldown");

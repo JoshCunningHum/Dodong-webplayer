@@ -3,8 +3,6 @@
 function requestData() {
     console.clear();
 
-    if(isOnCooldown("reqData")) return;
-
     // request for Data
     socket.emit("getData", {
         guild: guildID

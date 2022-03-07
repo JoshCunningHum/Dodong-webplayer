@@ -7,4 +7,7 @@ module.exports = {
 		// for OAuth2
 		clientId: "",
 		clientSecret: "",
+
+		// for Socket
+		thisURL: "The url of where this app is hosted",
 };

@@ -1,5 +1,4 @@
 "use strict";
-
 window.onload = () => {
     askBotURL().then(() => {
         _init();
@@ -8,10 +7,11 @@ window.onload = () => {
 
 function _init() {
 
-    socket = io.connect(discordBotUrl, {
-        reconnection: false,
+
+
+    socket = io(discordBotUrl, {
         secure: true
-    });
+    }); // https://socket.io/docs/v4/client-initialization/#from-the-same-domain
 
     changePage("login");
     disableNav();

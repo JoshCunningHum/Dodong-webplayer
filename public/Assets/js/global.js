@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const guildID = urlParams.get("guildID"); // IMPORTANT. found at query parameter
 
 
-var discordBotUrl, // IMPORTANT
+var discordBotUrl, // IMPORTANT. As of restructure (adding backEnd to socket network), this is the url of the backend and not the discordBotUrl
     socket, // IMPORTANT
     progressInterval, // For the progress animation
     lastReq = 0, // For cooldown

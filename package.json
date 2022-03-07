@@ -16,6 +16,8 @@
     "node-fetch": "^2.6.7",
     "passport": "^0.5.2",
     "passport-discord": "^0.1.4",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "youtube-sr": "^4.1.13"
   }
 }
