@@ -25,7 +25,7 @@ passport.use(
     new Strategy({
         clientID: process.env.CLIENTID || config.clientId,
         clientSecret: process.env.CLIENTSECRET || config.clientSecret,
-        callbackURL: `http://localhost:${process.env.PORT || 8080}/auth/redirect`,
+        callbackURL: (process.env.TEST) ? `http://localhost:${process.env.PORT || 8080}/auth/redirect` : `${process.env.THISURL || config.thisURL}/auth/redirect`,
         scope: ['identify', 'guilds']
     }, async (accessToken, refreshToken, profile, done) => {
         console.log("--- Authenticating...");
