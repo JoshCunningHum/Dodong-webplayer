@@ -5,6 +5,8 @@ const config = require("./config.js");
 const path = require('path');
 require("dotenv").config();
 
+const server = app.listen(process.env.PORT || 8080, () => console.log("Server is running."));;
+
 const passport = require('passport');
 require('./src/strategies/discord');
 
@@ -37,8 +39,6 @@ app.get('/', function (req, res) {
 // use the express-static middleware
 app.use(express.static("public"))
 
-// start the server listening for requests
-app.listen(process.env.PORT || 8080, () => console.log("Server is running."));
 
 // asks for bot URL
 // Now returns where socket (as server) resides
@@ -60,4 +60,6 @@ const sessionInfo = require('./src/routes/session');
 app.use('/session', sessionInfo);
 
 // Initiate socket connection
-const botSocket = require("./src/socket/client.js");
+const Bot = require("./src/socket/client.js");
+const botSocket = new Bot();
+botSocket.init(server);

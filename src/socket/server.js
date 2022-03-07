@@ -1,11 +1,9 @@
 // Socket as Server (Connected to the player)
 require("dotenv").config();
 
-const io = require('socket.io')(process.env.PORT || 3001, { cors: "*", method: ["GET", "POST"]});
-
 class Server{
-    constructor(){
-        this.io = io;
+    constructor(server){
+        this.io = require('socket.io')(server);
     }
     _init(botSocket){
         this.io.on('connection', socket => {
