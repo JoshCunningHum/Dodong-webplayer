@@ -11,7 +11,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await global.getUsers().find(users => users.id === id);
+        const user = await global.users.find(users => users.id === id);
         if (!user) throw new Error('User not found');
         console.log(`Deserializing ${id} as ${user.username}`);
         done(null, user);
@@ -30,12 +30,12 @@ passport.use(
     }, async (accessToken, refreshToken, profile, done) => {
         console.log("--- Authenticating...");
         try {
-            const user = await global.getUsers().find(el => el.id === profile.id);
+            const user = await global.users.find(el => el.id === profile.id);
             if(user) {
                 console.log(`-- User found: ${user.username}`);
                 return done(null, user);
             } else {
-                await global.addUser({
+                await global.users.push({
                     id: profile.id,
                     username: profile.username,
                     avatar: profile.avatar,
