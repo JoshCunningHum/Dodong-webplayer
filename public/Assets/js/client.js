@@ -1,5 +1,4 @@
 "use strict";
-
 window.onload = () => {
     askBotURL().then(() => {
         _init();
@@ -8,10 +7,11 @@ window.onload = () => {
 
 function _init() {
 
-    socket = io.connect(discordBotUrl, {
-        reconnection: false,
+
+
+    socket = io(discordBotUrl, {
         secure: true
-    });
+    }); // https://socket.io/docs/v4/client-initialization/#from-the-same-domain
 
     changePage("login");
     disableNav();
@@ -25,9 +25,6 @@ function _init() {
         disableNav(false);
     }
 
-    // Updates the guild select option for the login page
-    updateGuildSelect();
-
     // Monitors connection status
     socket.on('connect', async () => {
         changeConnectStatus(socket.connected);
@@ -40,6 +37,9 @@ function _init() {
         // Waits for 0.25 second - fix for the webplayer being unreponsive on first visit
         setTimeout(() => {
             requestData();
+
+            // Get all guild IDs the socket/bot is in
+            socket.emit('getGuilds');
         }, 250);
     });
 
@@ -51,6 +51,10 @@ function _init() {
     // For Receiving Data (All in One)
     socket.on("recData", async (res) => {
         recData(res);
+    })
+
+    socket.on("recGuilds", async (res) => {
+        recGuilds(res);
     })
 
 

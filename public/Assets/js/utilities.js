@@ -1,7 +1,6 @@
 "use strict";
 
 function display(text) {
-    // TODO : Create info modal to display text
     const infoModal = document.querySelector("#infoM");
 
     infoModal.querySelector("#infoM-Text").innerText = text;
@@ -11,9 +10,7 @@ function display(text) {
 
 function padd(integer, n) {
     let diff = n - String(integer).length;
-    if (diff > 0) {
-        integer = "0".repeat(diff) + integer;
-    }
+    if (diff > 0) integer = "0".repeat(diff) + integer;
     return integer;
 }
 
@@ -95,30 +92,15 @@ function selectItem(select, value) {
 }
 
 function updateGuildSelect() {
-    const savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-    if (savedGuilds != null && savedGuilds != undefined) {
+    if (availableGuilds != null && availableGuilds != undefined) {
         const guildSelect = document.querySelector("#login > fieldset > select.monospace");
         guildSelect.innerHTML = "";
         $(guildSelect).append(`<option value="0">Choose a guild</option>`);
-        for (let i of savedGuilds) {
+        for (let i of availableGuilds) {
             $(guildSelect).append(`<option value="${i.id}">${i.name}</option>`);
         }
         $(guildSelect).attr("disabled", false);
     }
-}
-
-function removeGuildonLocal(id) {
-    let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-    if (savedGuilds != undefined && savedGuilds != null) {
-        for (let i in savedGuilds) {
-            if (savedGuilds[i].id == id) {
-                savedGuilds.splice(i, 1);
-                localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
-                break;
-            }
-        }
-    }
-    updateGuildSelect();
 }
 
 async function askBotURL() {
@@ -253,7 +235,7 @@ function isOnCooldown(from){
     let date = new Date();
     let current = date.getTime();
 
-    // console.log("Call from: " + from); // For dev purposes
+    console.log("Call from: " + from); // For dev purposes
 
     if(current - lastReq < coolDownDelay){
         display("Woah Slowdown, still on cooldown");

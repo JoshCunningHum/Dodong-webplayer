@@ -3,8 +3,6 @@
 function requestData() {
     console.clear();
 
-    if(isOnCooldown("reqData")) return;
-
     // request for Data
     socket.emit("getData", {
         guild: guildID
@@ -14,6 +12,42 @@ function requestData() {
     // TODO : Cooldown for requesting data
     // Does not restrict users, only delays requests
 
+}
+
+async function recGuilds(botGuildIds) {
+
+    // update session info
+    let response = await fetch('/session', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        referrerPolicy: 'no-referrer'
+    });
+    session = await response.json();
+
+/*
+session can be used to get user info, avatar, and user's guilds
+- put the session fetch in a separate function?
+- pass this to discordPlayerControl()? or at least just the session/user id
+    to identify which user performed the action (e.g. added a searchresult, pause, skip, etc)
+- a small section in the page to show user info?
+
+PS: to get avatars/icons
+for users: https://cdn.discordapp.com/avatars/${session.id}/${session.avatar}
+    example: https://cdn.discordapp.com/avatars/299715820219793420/c684581d0e1775cc29962dfe2863148b
+for guilds: https://cdn.discordapp.com/icons/${id}/${icon}  id and icon properties from the guild object
+    example: https://cdn.discordapp.com/icons/706460727573217381/561ba60d3a67752a7d7b3e5bdd9dab86
+*/
+
+    // update available guilds (guilds that both the bot and the user are a member of)
+    availableGuilds = await session.guilds.filter(sessionGuild => 
+        !!botGuildIds.find(id => id === sessionGuild.id)
+    );
+
+    // Updates the guild select option for the login page
+    updateGuildSelect();
 }
 
 function recData(res) {
@@ -35,38 +69,6 @@ function recData(res) {
 
     // Guild Name Update
     document.getElementById("import_guildName").innerHTML = res.guildName;
-
-    // Saves the guild for later use (Login page)
-    if (guildID && res.guildName && res.guildName != "Guild Sample") {
-        let savedGuilds = JSON.parse(localStorage.getItem("savedGuilds"));
-        if (savedGuilds != null && savedGuilds != undefined) {
-            let guildFound = false;
-            for (let i of savedGuilds) {
-                if (i.id == guildID) {
-                    // always set the name incase of an update
-                    i.name = res.guildName;
-                    guildFound = true;
-                    break;
-                }
-            }
-            if (!guildFound) {
-                savedGuilds.push({
-                    id: guildID,
-                    name: res.guildName
-                });
-                localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
-                updateGuildSelect();
-            }
-        } else {
-            savedGuilds = [];
-            savedGuilds.push({
-                id: guildID,
-                name: res.guildName
-            });
-            localStorage.setItem("savedGuilds", JSON.stringify(savedGuilds));
-            updateGuildSelect();
-        }
-    }
 
     // If no queue is found
     if (!res.current) {
@@ -182,7 +184,6 @@ function displayError(err) {
             changePage("login");
             disableNav();
             if (!socket.connected) return;
-            removeGuildonLocal(err.guildID);
             console.error(`GUILD_ID: ${err.guildID} not found on discord bot`);
             break;
     }
