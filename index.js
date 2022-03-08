@@ -43,7 +43,7 @@ app.use(express.static("public"))
 // asks for bot URL
 // Now returns where socket (as server) resides
 app.post('/botURL', function (req, res){
-	if(process.env.TEST) res.json('http://localhost:3001'); // For development purposes
+	if(process.env.TEST) res.json('http://localhost:8080'); // For development purposes
 	else res.json(process.env.THISURL || config.thisURL);
 });
 

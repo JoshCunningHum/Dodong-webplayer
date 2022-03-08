@@ -17,7 +17,7 @@ class BotSocket{
         socket.onAny((e, args = {}) => {
             console.log(args);
             if(e == "recGuilds"){
-                browserSocket.io.to(args.id).emit("recGuilds", args.guild);
+                this.browserSocket.io.to(args.id).emit("recGuilds", args.guild);
                 return;
             }
             if(!args.guild) return;
@@ -25,7 +25,7 @@ class BotSocket{
             console.log(args);
         
             // Redirect the response to browsers that inside on a room defined by their guildID
-            browserSocket.io.to(args.guild).emit(e, args);
+            this.browserSocket.io.to(args.guild).emit(e, args);
         })
     }
 }
