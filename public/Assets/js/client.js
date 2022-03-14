@@ -1,17 +1,13 @@
 "use strict";
 window.onload = () => {
-    askBotURL().then(() => {
-        _init();
-    });
+    _init();
 }
 
 function _init() {
 
 
 
-    socket = io(discordBotUrl, {
-        secure: true
-    }); // https://socket.io/docs/v4/client-initialization/#from-the-same-domain
+    socket = io(); // https://socket.io/docs/v4/client-initialization/#from-the-same-domain
 
     changePage("login");
     disableNav();

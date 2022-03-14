@@ -39,14 +39,6 @@ app.get('/', function (req, res) {
 // use the express-static middleware
 app.use(express.static("public"))
 
-
-// asks for bot URL
-// Now returns where socket (as server) resides
-app.post('/botURL', function (req, res){
-	if(process.env.TEST) res.json('http://localhost:8080'); // For development purposes
-	else res.json(process.env.THISURL || config.thisURL);
-});
-
 const search = require('./src/routes/search');
 app.use('/search', search);
 
