@@ -1,7 +1,6 @@
 const express = require("express");
 const session = require('express-session');
 const app = express();
-const config = require("./config.js");
 const path = require('path');
 require("dotenv").config();
 
@@ -10,17 +9,17 @@ const server = app.listen(process.env.PORT || 8080, () => console.log("Server is
 const passport = require('passport');
 require('./src/strategies/discord');
 
-app.use(
-	session({
-		secret: 'meow meow', // todo: make this more secure
-		resave: false,
-		saveUninitialized: false,
-		//cookie: { secure: true } // for https only
+const sessionMiddleware = session({
+	secret: 'meow meow', // todo: make this more secure
+	resave: false,
+	saveUninitialized: false,
+	//cookie: { secure: true } // for https only
 
-		// todo: use a different store
-		// http://expressjs.com/en/resources/middleware/session.html#compatible-session-stores
-	})
-);
+	// todo: use a different store
+	// http://expressjs.com/en/resources/middleware/session.html#compatible-session-stores
+});
+module.exports = sessionMiddleware; // put session stuff in a separate file?
+app.use(sessionMiddleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
