@@ -2,6 +2,7 @@
 require("dotenv").config();
 const ServerSocket = require("./server.js");
 const { io } = require("socket.io-client");
+const config = require("../../config.js");
 const socket = io.connect( process.env.DISCORDBOTURL || config.discordBotUrl , { reconnection: true, secure: true });
 
 class BotSocket{
