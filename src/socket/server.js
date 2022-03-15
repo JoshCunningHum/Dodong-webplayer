@@ -2,10 +2,9 @@
 require("dotenv").config();
 const passport = require('passport');
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
-const sessionMiddleware = require('../../index.js');
 
 class Server{
-    constructor(server){
+    constructor(server, sessionMiddleware){
         this.io = require('socket.io')(server);
         this.io.use(wrap(sessionMiddleware));
         this.io.use(wrap(passport.initialize()));

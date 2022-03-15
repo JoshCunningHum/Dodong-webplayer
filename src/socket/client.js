@@ -6,9 +6,9 @@ const config = require("../../config.js");
 const socket = io.connect( process.env.DISCORDBOTURL || config.discordBotUrl , { reconnection: true, secure: true });
 
 class BotSocket{
-    init(server){
+    init(server, sessionMiddleware){
         this.socket = socket;
-        this.browserSocket = new ServerSocket(server);
+        this.browserSocket = new ServerSocket(server, sessionMiddleware);
         this.browserSocket._init(this.socket);
 
         // Listeners (Things emitted by the bot)

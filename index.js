@@ -18,7 +18,6 @@ const sessionMiddleware = session({
 	// todo: use a different store
 	// http://expressjs.com/en/resources/middleware/session.html#compatible-session-stores
 });
-module.exports = sessionMiddleware; // put session stuff in a separate file?
 app.use(sessionMiddleware);
 
 app.use(passport.initialize());
@@ -53,4 +52,4 @@ app.use('/session', sessionInfo);
 // Initiate socket connection
 const Bot = require("./src/socket/client.js");
 const botSocket = new Bot();
-botSocket.init(server);
+botSocket.init(server, sessionMiddleware);
