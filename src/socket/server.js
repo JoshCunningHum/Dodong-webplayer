@@ -10,7 +10,8 @@ class Server{
         this.io.use(wrap(passport.initialize()));
         this.io.use(wrap(passport.session()));
     }
-    _init(botSocket){
+    _init(botSocket, botSocketObject){
+
         this.io.use((socket, next) => {
             if (socket.request.user) {
                 console.log(`Browser socket ${socket.id} authorized!`);
@@ -23,11 +24,12 @@ class Server{
             console.log(`Player Connection detected: ${socket.id}`);
 
             socket.onAny((e, args = {}) => {
-                console.log(e, args);
+                console.log('Acquiring Emit from the browser: ' + socket.id);
+                console.log.log(e, args);
 
-                // Special case
+                // Special case : Sends the guild array instead of asking guilds on the bot
                 if(e == "getGuilds"){
-                    botSocket.emit(e, {id: socket.id});
+                    socket.emit("recGuilds", botSocketObject.guilds);
                     return;
                 }
 
@@ -36,6 +38,7 @@ class Server{
                 // For autoupdates
                 if(e == "joinGuild"){
                     socket.join(args.guild);
+                    return;
                 }
         
                 // Redirect the args to the bot with event name

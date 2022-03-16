@@ -50,6 +50,7 @@ function _init() {
     })
 
     socket.on("recGuilds", async (res) => {
+        console.log(res);
         recGuilds(res);
     })
 
